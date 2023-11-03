@@ -42,8 +42,6 @@
 typedef struct
 {
     uint32_t  DeviceCounter;
-    uint32_t  DeviceConfig;
-    uint32_t  DeviceStatus;
 
 } __attribute__((packed)) GENERIC_STAR_TRACKER_Device_HK_tlm_t;
 #define GENERIC_STAR_TRACKER_DEVICE_HK_LNGTH sizeof ( GENERIC_STAR_TRACKER_Device_HK_tlm_t )
@@ -55,7 +53,6 @@ typedef struct
 */
 typedef struct
 {
-    uint32_t  DeviceCounter;
     double    Q0;
     double    Q1;
     double    Q2;
@@ -65,7 +62,7 @@ typedef struct
 } __attribute__((packed)) GENERIC_STAR_TRACKER_Device_Data_tlm_t;
 //#define GENERIC_STAR_TRACKER_DEVICE_DATA_LNGTH sizeof ( GENERIC_STAR_TRACKER_Device_Data_tlm_t )
 //#define GENERIC_STAR_TRACKER_DEVICE_DATA_SIZE GENERIC_STAR_TRACKER_DEVICE_DATA_LNGTH + GENERIC_STAR_TRACKER_DEVICE_HDR_TRL_LEN
-#define GENERIC_STAR_TRACKER_DEVICE_DATA_SIZE 17 // 2 header, 4 counter, 2*4 uint16_t quaternion, 1 valid, 2 trailer
+#define GENERIC_STAR_TRACKER_DEVICE_DATA_SIZE 13 // 2 header, 2*4 uint16_t quaternion, 1 valid, 2 trailer
 
 /*
 ** Prototypes

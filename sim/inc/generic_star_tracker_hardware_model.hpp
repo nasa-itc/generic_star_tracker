@@ -53,8 +53,6 @@ namespace Nos3
         /* Internal state data */
         std::uint8_t                                        _enabled;
         std::uint32_t                                       _count;
-        std::uint32_t                                       _config;
-        std::uint32_t                                       _status;
     };
 }
 

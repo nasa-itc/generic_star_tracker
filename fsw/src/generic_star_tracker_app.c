@@ -185,8 +185,6 @@ int32 GENERIC_STAR_TRACKER_AppInit(void)
     */
     GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.DeviceEnabled = GENERIC_STAR_TRACKER_DEVICE_DISABLED;
     GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.DeviceHK.DeviceCounter = 0;
-    GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.DeviceHK.DeviceConfig = 0;
-    GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.DeviceHK.DeviceStatus = 0;
 
     /* 
      ** Send an information event that the app has initialized. 
@@ -310,29 +308,6 @@ void GENERIC_STAR_TRACKER_ProcessGroundCommand(void)
             {
                 CFE_EVS_SendEvent(GENERIC_STAR_TRACKER_CMD_DISABLE_INF_EID, CFE_EVS_EventType_INFORMATION, "GENERIC_STAR_TRACKER: Disable command received");
                 GENERIC_STAR_TRACKER_Disable();
-            }
-            break;
-
-        /*
-        ** TODO: Edit and add more command codes as appropriate for the application
-        ** Set Configuration Command
-        ** Note that this is an example of a command that has additional arguments
-        */
-        case GENERIC_STAR_TRACKER_CONFIG_CC:
-            if (GENERIC_STAR_TRACKER_VerifyCmdLength(GENERIC_STAR_TRACKER_AppData.MsgPtr, sizeof(GENERIC_STAR_TRACKER_Config_cmd_t)) == OS_SUCCESS)
-            {
-                uint32_t config = ntohl(((GENERIC_STAR_TRACKER_Config_cmd_t*) GENERIC_STAR_TRACKER_AppData.MsgPtr)->DeviceCfg); // command is defined as big-endian... need to convert to host representation
-                CFE_EVS_SendEvent(GENERIC_STAR_TRACKER_CMD_CONFIG_INF_EID, CFE_EVS_EventType_INFORMATION, "GENERIC_STAR_TRACKER: Configuration command received: %u", config);
-                /* Command device to send HK */
-                status = GENERIC_STAR_TRACKER_CommandDevice(&GENERIC_STAR_TRACKER_AppData.Generic_star_trackerUart, GENERIC_STAR_TRACKER_DEVICE_CFG_CMD, config);
-                if (status == OS_SUCCESS)
-                {
-                    GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.DeviceCount++;
-                }
-                else
-                {
-                    GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.DeviceErrorCount++;
-                }
             }
             break;
 

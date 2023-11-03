@@ -7,7 +7,7 @@ namespace Nos3
     extern ItcLogger::Logger *sim_logger;
 
     Generic_star_trackerHardwareModel::Generic_star_trackerHardwareModel(const boost::property_tree::ptree& config) : SimIHardwareModel(config), 
-    _enabled(GENERIC_STAR_TRACKER_SIM_ERROR), _count(0), _config(0), _status(0)
+    _enabled(GENERIC_STAR_TRACKER_SIM_ERROR), _count(0)
     {
         /* Get the NOS engine connection string */
         std::string connection_string = config.get("common.nos-connection-string", "tcp://127.0.0.1:12001"); 
@@ -106,21 +106,7 @@ namespace Nos3
         {
             _enabled = GENERIC_STAR_TRACKER_SIM_ERROR;
             _count = 0;
-            _config = 0;
-            _status = 0;
             response = "Generic_star_trackerHardwareModel::command_callback:  Disabled";
-        }
-        else if (command.substr(0,7).compare("STATUS=") == 0)
-        {
-            try
-            {
-                _status = std::stod(command.substr(7));
-                response = "Generic_star_trackerHardwareModel::command_callback:  Status set";
-            }
-            catch (...)
-            {
-                response = "Generic_star_trackerHardwareModel::command_callback:  Status invalid";
-            }            
         }
         else if (command.compare(0,4,"STOP") == 0) 
         {
@@ -139,7 +125,7 @@ namespace Nos3
     void Generic_star_trackerHardwareModel::create_generic_star_tracker_hk(std::vector<uint8_t>& out_data)
     {
         /* Prepare data size */
-        out_data.resize(16, 0x00);
+        out_data.resize(8, 0x00);
 
         /* Streaming data header - 0xDEAD */
         out_data[0] = 0xDE;
@@ -151,21 +137,9 @@ namespace Nos3
         out_data[4] = (_count >>  8) & 0x000000FF; 
         out_data[5] =  _count & 0x000000FF;
         
-        /* Configuration */
-        out_data[6] = (_config >> 24) & 0x000000FF; 
-        out_data[7] = (_config >> 16) & 0x000000FF; 
-        out_data[8] = (_config >>  8) & 0x000000FF; 
-        out_data[9] =  _config & 0x000000FF;
-
-        /* Device Status */
-        out_data[10] = (_status >> 24) & 0x000000FF; 
-        out_data[11] = (_status >> 16) & 0x000000FF; 
-        out_data[12] = (_status >>  8) & 0x000000FF; 
-        out_data[13] =  _status & 0x000000FF;
-
         /* Streaming data trailer - 0xBEEF */
-        out_data[14] = 0xBE;
-        out_data[15] = 0xEF;
+        out_data[6] = 0xBE;
+        out_data[7] = 0xEF;
     }
 
 
@@ -175,17 +149,11 @@ namespace Nos3
         boost::shared_ptr<Generic_star_trackerDataPoint> data_point = boost::dynamic_pointer_cast<Generic_star_trackerDataPoint>(_generic_star_tracker_dp->get_data_point());
 
         /* Prepare data size */
-        out_data.resize(17, 0x00);
+        out_data.resize(13, 0x00);
 
         /* Streaming data header - 0xDEAD */
         out_data[0] = 0xDE;
         out_data[1] = 0xAD;
-        
-        /* Sequence count */
-        out_data[2] = (_count >> 24) & 0x000000FF; 
-        out_data[3] = (_count >> 16) & 0x000000FF; 
-        out_data[4] = (_count >>  8) & 0x000000FF; 
-        out_data[5] =  _count & 0x000000FF;
         
         /* 
         ** Payload 
@@ -203,25 +171,25 @@ namespace Nos3
         double dq2 = data_point->get_generic_star_tracker_data_q2();
         double dq3 = data_point->get_generic_star_tracker_data_q3();
         uint16_t q0  = (uint16_t)(dq0*32767.0 + 32768.0);
-        out_data[6]  = (q0 >> 8) & 0x00FF;
-        out_data[7]  =  q0       & 0x00FF;
+        out_data[2]  = (q0 >> 8) & 0x00FF;
+        out_data[3]  =  q0       & 0x00FF;
         uint16_t q1  = (uint16_t)(dq1*32767.0 + 32768.0);
-        out_data[8]  = (q1 >> 8) & 0x00FF;
-        out_data[9]  =  q1       & 0x00FF;
+        out_data[4]  = (q1 >> 8) & 0x00FF;
+        out_data[5]  =  q1       & 0x00FF;
         uint16_t q2  = (uint16_t)(dq2*32767.0 + 32768.0);
-        out_data[10] = (q2 >> 8) & 0x00FF;
-        out_data[11] =  q2       & 0x00FF;
+        out_data[6] = (q2 >> 8) & 0x00FF;
+        out_data[7] =  q2       & 0x00FF;
         uint16_t q3  = (uint16_t)(dq3*32767.0 + 32768.0);
-        out_data[12] = (q3 >> 8) & 0x00FF;
-        out_data[13] =  q3       & 0x00FF;
+        out_data[8] = (q3 >> 8) & 0x00FF;
+        out_data[9] =  q3       & 0x00FF;
 
-        out_data[14] = data_point->is_generic_star_tracker_data_valid() ? 1 : 0;
+        out_data[10] = data_point->is_generic_star_tracker_data_valid() ? 1 : 0;
 
         sim_logger->debug("Generic_star_trackerHardwareModel::create_generic_star_tracker_data: is_valid=%d, data_point=%f, %f, %f, %f, converted values=%u, %u, %u, %u.", out_data[14], dq0, dq1, dq2, dq3, q0, q1, q2, q3);
 
         /* Streaming data trailer - 0xBEEF */
-        out_data[15] = 0xBE;
-        out_data[16] = 0xEF;
+        out_data[11] = 0xBE;
+        out_data[12] = 0xEF;
     }
 
 
@@ -296,15 +264,6 @@ namespace Nos3
                         create_generic_star_tracker_data(out_data);
                         break;
 
-                    case 3:
-                        /* Configuration */
-                        sim_logger->debug("Generic_star_trackerHardwareModel::uart_read_callback:  Configuration command received!");
-                        _config  = in_data[3] << 24;
-                        _config |= in_data[4] << 16;
-                        _config |= in_data[5] << 8;
-                        _config |= in_data[6];
-                        break;
-                    
                     default:
                         /* Unused command code */
                         valid = GENERIC_STAR_TRACKER_SIM_ERROR;

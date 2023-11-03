@@ -156,30 +156,17 @@ int32_t GENERIC_STAR_TRACKER_RequestHK(uart_info_t* device, GENERIC_STAR_TRACKER
             /* Verify data header and trailer */
             if ((read_data[0]  == GENERIC_STAR_TRACKER_DEVICE_HDR_0)     && 
                 (read_data[1]  == GENERIC_STAR_TRACKER_DEVICE_HDR_1)     && 
-                (read_data[14] == GENERIC_STAR_TRACKER_DEVICE_TRAILER_0) && 
-                (read_data[15] == GENERIC_STAR_TRACKER_DEVICE_TRAILER_1) )
+                (read_data[6] == GENERIC_STAR_TRACKER_DEVICE_TRAILER_0)  && 
+                (read_data[7] == GENERIC_STAR_TRACKER_DEVICE_TRAILER_1) )
             {
                 data->DeviceCounter  = read_data[2] << 24;
                 data->DeviceCounter |= read_data[3] << 16;
                 data->DeviceCounter |= read_data[4] << 8;
                 data->DeviceCounter |= read_data[5];
 
-                data->DeviceConfig  = read_data[6] << 24;
-                data->DeviceConfig |= read_data[7] << 16;
-                data->DeviceConfig |= read_data[8] << 8;
-                data->DeviceConfig |= read_data[9];
-
-                data->DeviceStatus  = read_data[10] << 24;
-                data->DeviceStatus |= read_data[11] << 16;
-                data->DeviceStatus |= read_data[12] << 8;
-                data->DeviceStatus |= read_data[13];
-
                 #ifdef GENERIC_STAR_TRACKER_CFG_DEBUG
                     OS_printf("  Header  = 0x%02x%02x  \n", read_data[0], read_data[1]);
-                    OS_printf("  Counter = 0x%08x      \n", data->DeviceCounter);
-                    OS_printf("  Config  = 0x%08x      \n", data->DeviceConfig);
-                    OS_printf("  Status  = 0x%08x      \n", data->DeviceStatus);
-                    OS_printf("  Trailer = 0x%02x%02x  \n", read_data[14], read_data[15]);
+                    OS_printf("  Trailer = 0x%02x%02x  \n", read_data[6], read_data[7]);
                 #endif
             }
             else
@@ -229,36 +216,30 @@ int32_t GENERIC_STAR_TRACKER_RequestData(uart_info_t* device, GENERIC_STAR_TRACK
             /* Verify data header and trailer */
             if ((read_data[0]  == GENERIC_STAR_TRACKER_DEVICE_HDR_0)     && 
                 (read_data[1]  == GENERIC_STAR_TRACKER_DEVICE_HDR_1)     && 
-                (read_data[15] == GENERIC_STAR_TRACKER_DEVICE_TRAILER_0) && 
-                (read_data[16] == GENERIC_STAR_TRACKER_DEVICE_TRAILER_1) )
+                (read_data[11] == GENERIC_STAR_TRACKER_DEVICE_TRAILER_0) && 
+                (read_data[12] == GENERIC_STAR_TRACKER_DEVICE_TRAILER_1) )
             {
-                data->DeviceCounter  = read_data[2] << 24;
-                data->DeviceCounter |= read_data[3] << 16;
-                data->DeviceCounter |= read_data[4] << 8;
-                data->DeviceCounter |= read_data[5];
-
                 uint16_t q0, q1, q2, q3;
-                q0  = read_data[6] << 8;
-                q0 |= read_data[7];
+                q0  = read_data[2] << 8;
+                q0 |= read_data[3];
                 data->Q0 = (((double)q0) - 32768.0)/32767.0;
 
-                q1  = read_data[8] << 8;
-                q1 |= read_data[9];
+                q1  = read_data[4] << 8;
+                q1 |= read_data[5];
                 data->Q1 = (((double)q1) - 32768.0)/32767.0;
                 
-                q2  = read_data[10] << 8;
-                q2 |= read_data[11];
+                q2  = read_data[6] << 8;
+                q2 |= read_data[7];
                 data->Q2 = (((double)q2) - 32768.0)/32767.0;
 
-                q3  = read_data[12] << 8;
-                q3 |= read_data[13];
+                q3  = read_data[8] << 8;
+                q3 |= read_data[9];
                 data->Q3 = (((double)q3) - 32768.0)/32767.0;
 
-                data->IsValid = read_data[14];
+                data->IsValid = read_data[10];
 
                 #ifdef GENERIC_STAR_TRACKER_CFG_DEBUG
                     OS_printf("  Header  = 0x%02x%02x \n", read_data[0], read_data[1]);
-                    OS_printf("  Counter = 0x%08x     \n", data->DeviceCounter);
                     OS_printf("  Data Q0 = 0x%d, %f   \n", q0, data->Q0);
                     OS_printf("  Data Q1 = 0x%d, %f   \n", q1, data->Q1);
                     OS_printf("  Data Q2 = 0x%d, %f   \n", q2, data->Q2);

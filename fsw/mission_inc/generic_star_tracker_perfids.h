@@ -16,6 +16,6 @@
 ** id conflict with other apps.  Performance IDs are used for cFE performance
 ** metrics.
 */
-#define GENERIC_STAR_TRACKER_PERF_ID          500
+#define GENERIC_STAR_TRACKER_PERF_ID          550
 
 #endif /* _GENERIC_STAR_TRACKER_PERFIDS_H_ */

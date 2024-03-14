@@ -2,8 +2,8 @@ TELEMETRY GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_HK_TLM LITTLE_ENDIAN "GENERI
   APPEND_ID_ITEM CCSDS_STREAMID       16 UINT 0x0935  "CCSDS Packet Identification" BIG_ENDIAN
   APPEND_ITEM    CCSDS_SEQUENCE       16 UINT         "CCSDS Packet Sequence Control" BIG_ENDIAN
   APPEND_ITEM    CCSDS_LENGTH         16 UINT         "CCSDS Packet Data Length" BIG_ENDIAN
-  APPEND_ITEM    CCSDS_SECONDS        32 UINT         "CCSDS Telemetry Secondary Header (seconds)"
-  APPEND_ITEM    CCSDS_SUBSECS        16 UINT         "CCSDS Telemetry Secondary Header (subseconds)"
+  APPEND_ITEM    CCSDS_SECONDS        32 UINT         "CCSDS Telemetry Secondary Header (seconds)" BIG_ENDIAN
+  APPEND_ITEM    CCSDS_SUBSECS        16 UINT         "CCSDS Telemetry Secondary Header (subseconds)" BIG_ENDIAN
   APPEND_ITEM    CCSDS_SPARE          32 UINT         ""
   APPEND_ITEM    CMD_ERR_COUNT         8 UINT         "Command Error Count"
   APPEND_ITEM    CMD_COUNT             8 UINT         "Command Count"
@@ -19,8 +19,8 @@ TELEMETRY GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM LITTLE_ENDIAN "GENE
   APPEND_ID_ITEM CCSDS_STREAMID       16 UINT 0x0936  "CCSDS Packet Identification" BIG_ENDIAN
   APPEND_ITEM    CCSDS_SEQUENCE       16 UINT         "CCSDS Packet Sequence Control" BIG_ENDIAN
   APPEND_ITEM    CCSDS_LENGTH         16 UINT         "CCSDS Packet Data Length" BIG_ENDIAN
-  APPEND_ITEM    CCSDS_SECONDS        32 UINT         "CCSDS Telemetry Secondary Header (seconds)"
-  APPEND_ITEM    CCSDS_SUBSECS        16 UINT         "CCSDS Telemetry Secondary Header (subseconds)"
+  APPEND_ITEM    CCSDS_SECONDS        32 UINT         "CCSDS Telemetry Secondary Header (seconds)" BIG_ENDIAN
+  APPEND_ITEM    CCSDS_SUBSECS        16 UINT         "CCSDS Telemetry Secondary Header (subseconds)" BIG_ENDIAN
   APPEND_ITEM    CCSDS_SPARE          32 UINT         ""
   # GENERIC_STAR_TRACKER_Device_Data_tlm_t
   APPEND_ITEM    STAR_TRACKER_Q0      64 FLOAT        "generic_star_tracker data q0 component"

@@ -246,7 +246,6 @@ void GENERIC_STAR_TRACKER_ProcessCommandPacket(void)
 */
 void GENERIC_STAR_TRACKER_ProcessGroundCommand(void)
 {
-    int32 status = OS_SUCCESS;
     CFE_SB_MsgId_t MsgId = CFE_SB_INVALID_MSG_ID;
     CFE_MSG_FcnCode_t CommandCode = 0;
 
@@ -331,7 +330,6 @@ void GENERIC_STAR_TRACKER_ProcessGroundCommand(void)
 */
 void GENERIC_STAR_TRACKER_ProcessTelemetryRequest(void)
 {
-    int32 status = OS_SUCCESS;
     CFE_SB_MsgId_t MsgId = CFE_SB_INVALID_MSG_ID;
     CFE_MSG_FcnCode_t CommandCode = 0;
 

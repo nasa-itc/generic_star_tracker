@@ -215,7 +215,7 @@ namespace Nos3
             /* Check if message is incorrect size */
             if (in_data.size() != 9)
             {
-                sim_logger->debug("Generic_star_trackerHardwareModel::uart_read_callback:  Invalid command size of %d received!", in_data.size());
+                sim_logger->debug("Generic_star_trackerHardwareModel::uart_read_callback:  Invalid command size of %ld received!", in_data.size());
                 valid = GENERIC_STAR_TRACKER_SIM_ERROR;
             }
             else

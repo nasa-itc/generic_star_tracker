@@ -244,7 +244,7 @@ int32_t GENERIC_STAR_TRACKER_RequestData(uart_info_t* device, GENERIC_STAR_TRACK
                     OS_printf("  Data Q1 = 0x%d, %f   \n", q1, data->Q1);
                     OS_printf("  Data Q2 = 0x%d, %f   \n", q2, data->Q2);
                     OS_printf("  Data Q3 = 0x%d, %f   \n", q3, data->Q3);
-                    OS_printf("  Is valid= %d         \n", data->IsValid);
+                    OS_printf("  Is valid= %d         \n", data->IsValid);)
                     OS_printf("  Trailer = 0x%02x%02x \n", read_data[12], read_data[13]);
                 #endif
             }

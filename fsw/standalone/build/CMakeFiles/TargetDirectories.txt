@@ -1,3 +1,0 @@
-/home/jstar/Desktop/github-nos3/components/generic_star_tracker/fsw/standalone/build/CMakeFiles/generic_star_tracker_checkout.dir
-/home/jstar/Desktop/github-nos3/components/generic_star_tracker/fsw/standalone/build/CMakeFiles/edit_cache.dir
-/home/jstar/Desktop/github-nos3/components/generic_star_tracker/fsw/standalone/build/CMakeFiles/rebuild_cache.dir

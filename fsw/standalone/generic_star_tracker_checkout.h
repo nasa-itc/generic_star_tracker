@@ -49,7 +49,6 @@
 #define CMD_NOOP     2
 #define CMD_HK       3
 #define CMD_GENERIC_STAR_TRACKER   4
-#define CMD_CFG      5
 
 /*
 ** Prototypes

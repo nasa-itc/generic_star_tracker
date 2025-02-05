@@ -32,7 +32,7 @@ include_directories(${hwlib_MISSION_DIR}/fsw/public_inc)
 # be broken down into smaller units (in which case one should use
 # a unique suffix other than "ALL" for each unit).  For example,
 # OSAL implements a separate coverage test per source unit.
-add_cfe_coverage_test(sample ALL 
+add_cfe_coverage_test(generic_star_tracker ALL 
     "coveragetest/coveragetest_generic_star_tracker_app.c"
     "../src/generic_star_tracker_app.c"
     "../../shared/generic_star_tracker_device.c"

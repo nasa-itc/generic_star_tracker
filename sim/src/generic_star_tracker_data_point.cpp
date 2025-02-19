@@ -5,7 +5,7 @@ namespace Nos3
 {
     extern ItcLogger::Logger *sim_logger;
 
-    Generic_star_trackerDataPoint::Generic_star_trackerDataPoint(double count)
+    Generic_star_trackerDataPoint::Generic_star_trackerDataPoint(double count) : _not_parsed(false)
     {
         sim_logger->trace("Generic_star_trackerDataPoint::Generic_star_trackerDataPoint:  Defined Constructor executed");
 
@@ -17,7 +17,7 @@ namespace Nos3
         _generic_star_tracker_data[3] = count * 0.004;
     }
 
-    Generic_star_trackerDataPoint::Generic_star_trackerDataPoint(int16_t spacecraft, int16_t star_tracker, const boost::shared_ptr<Sim42DataPoint> dp) : _dp(*dp), _sc(spacecraft), _st(star_tracker)
+    Generic_star_trackerDataPoint::Generic_star_trackerDataPoint(int16_t spacecraft, int16_t star_tracker, const boost::shared_ptr<Sim42DataPoint> dp) : _dp(*dp), _sc(spacecraft), _st(star_tracker), _not_parsed(true)
     {
         sim_logger->trace("Generic_star_trackerDataPoint::Generic_star_trackerDataPoint:  42 Constructor executed");
 
@@ -80,7 +80,9 @@ namespace Nos3
            << " "
            << _generic_star_tracker_data[2]
            << " "
-           << _generic_star_tracker_data[3];
+           << _generic_star_tracker_data[3]
+           << std::endl;
+        ss << Sim42DataPoint::to_string();
 
         return ss.str();
     }

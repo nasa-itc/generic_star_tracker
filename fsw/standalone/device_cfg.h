@@ -6,10 +6,10 @@
 */
 #define GENERIC_STAR_TRACKER_CFG
 /* Note: NOS3 uart requires matching handle and bus number */
-#define GENERIC_STAR_TRACKER_CFG_STRING           "/dev/usart_29"
-#define GENERIC_STAR_TRACKER_CFG_HANDLE           29 
+#define GENERIC_STAR_TRACKER_CFG_STRING           "usart_10"
+#define GENERIC_STAR_TRACKER_CFG_HANDLE           10 
 #define GENERIC_STAR_TRACKER_CFG_BAUDRATE_HZ      115200
-#define GENERIC_STAR_TRACKER_CFG_MS_TIMEOUT       250
+#define GENERIC_STAR_TRACKER_CFG_MS_TIMEOUT       50            /* Max 255 */
 #define GENERIC_STAR_TRACKER_CFG_DEBUG
 
 #endif /* _GENERIC_STAR_TRACKER_CHECKOUT_DEVICE_CFG_H_ */

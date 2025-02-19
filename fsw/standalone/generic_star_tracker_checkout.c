@@ -12,7 +12,6 @@
 */
 #include "generic_star_tracker_checkout.h"
 
-
 /*
 ** Global Variables
 */
@@ -26,17 +25,15 @@ GENERIC_STAR_TRACKER_Device_Data_tlm_t Generic_star_trackerData;
 void print_help(void) 
 {
     printf(PROMPT "command [args]\n"
-        "---------------------------------------------------------------------\n"
-        "help                               - Display help                    \n"
-        "exit                               - Exit app                        \n"
-        "noop                               - No operation command to device  \n"
-        "  n                                - ^                               \n"
-        "hk                                 - Request device housekeeping     \n"
-        "  h                                - ^                               \n"
-        "generic_star_tracker                             - Request generic_star_tracker data             \n"
-        "  s                                - ^                               \n"
-        "cfg #                              - Send configuration #            \n"
-        "  c #                              - ^                               \n"
+        "----------------------------------------------------------------------\n"
+        "help                               - Display help                     \n"
+        "exit                               - Exit app                         \n"
+        "noop                               - No operation command to device   \n"
+        "  n                                - ^                                \n"
+        "hk                                 - Request device housekeeping      \n"
+        "  h                                - ^                                \n"
+        "generic_star_tracker               - Request generic_star_tracker data\n"
+        "  s                                - ^                                \n"
         "\n"
     );
 }
@@ -83,14 +80,6 @@ int get_command(const char* str)
     {
         status = CMD_GENERIC_STAR_TRACKER;
     }
-    else if(strcmp(lcmd, "cfg") == 0) 
-    {
-        status = CMD_CFG;
-    }
-    else if(strcmp(lcmd, "c") == 0) 
-    {
-        status = CMD_CFG;
-    }
     return status;
 }
 
@@ -99,7 +88,6 @@ int process_command(int cc, int num_tokens, char tokens[MAX_INPUT_TOKENS][MAX_IN
 {
     int32_t status = OS_SUCCESS;
     int32_t exit_status = OS_SUCCESS;
-    uint32_t config;
 
     /* Process command */
     switch(cc) 
@@ -156,22 +144,6 @@ int process_command(int cc, int num_tokens, char tokens[MAX_INPUT_TOKENS][MAX_IN
                 }
             }
             break;
-
-        case CMD_CFG:
-            if (check_number_arguments(num_tokens, 1) == OS_SUCCESS)
-            {
-                config = atoi(tokens[0]);
-                status = GENERIC_STAR_TRACKER_CommandDevice(&Generic_star_trackerUart, GENERIC_STAR_TRACKER_DEVICE_CFG_CMD, config);
-                if (status == OS_SUCCESS)
-                {
-                    OS_printf("Configuration command success with value %u\n", config);
-                }
-                else
-                {
-                    OS_printf("Configuration command failed!\n");
-                }
-            }
-            break;
         
         default: 
             OS_printf("Invalid command format, type 'help' for more info\n");
@@ -190,6 +162,11 @@ int main(int argc, char *argv[])
     int cmd;    
     char* token_ptr;
     uint8_t run_status = OS_SUCCESS;
+
+    /* Initialize HWLIB */
+    #ifdef _NOS_ENGINE_LINK_
+        nos_init_link();
+    #endif
 
     /* Open device specific protocols */
     Generic_star_trackerUart.deviceString = GENERIC_STAR_TRACKER_CFG_STRING;
@@ -245,6 +222,10 @@ int main(int argc, char *argv[])
 
     // Close the device 
     uart_close_port(&Generic_star_trackerUart);
+
+    #ifdef _NOS_ENGINE_LINK_
+        nos_destroy_link();
+    #endif
 
     OS_printf("Cleanly exiting generic_star_tracker application...\n\n"); 
     return 1;

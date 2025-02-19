@@ -27,6 +27,9 @@
 #include "device_cfg.h"
 #include "generic_star_tracker_device.h"
 
+#if TGTNAME == cpu1
+    #include "nos_link.h"
+#endif
 
 /*
 ** Standard Defines
@@ -37,7 +40,6 @@
 #define MAX_INPUT_TOKEN_SIZE  	50
 #define TELEM_BUF_LEN           8
 
-
 /*
 ** Command Defines
 */
@@ -47,8 +49,6 @@
 #define CMD_NOOP     2
 #define CMD_HK       3
 #define CMD_GENERIC_STAR_TRACKER   4
-#define CMD_CFG      5
-
 
 /*
 ** Prototypes
@@ -57,12 +57,10 @@ void print_help(void);
 int  get_command(const char* str);
 int  main(int argc, char *argv[]);
 
-
 /*
 ** Generic Prototypes
 */
 int check_number_arguments(int actual, int expected);
 void to_lower(char* str);
-
 
 #endif /* _GENERIC_STAR_TRACKER_CHECKOUT_H_ */

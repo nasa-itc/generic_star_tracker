@@ -46,6 +46,6 @@
 /*
  * Allow UT access to the global "GENERIC_STAR_TRACKER_APP_Data" object.
  */
-// extern GENERIC_STAR_TRACKER_AppData_t GENERIC_STAR_TRACKER_APP_Data;
+//extern GENERIC_STAR_TRACKER_AppData_t GENERIC_STAR_TRACKER_APP_Data;
 
 #endif /* UT_GENERIC_STAR_TRACKER_APP_H */

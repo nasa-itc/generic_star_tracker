@@ -32,30 +32,27 @@
  */
 
 #include "utassert.h"
-#include "utstubs.h"
 #include "uttest.h"
+#include "utstubs.h"
 
 #include "cfe.h"
-#include "generic_star_tracker_app.h"
 #include "generic_star_tracker_events.h"
+#include "generic_star_tracker_app.h"
 
 /*
  * Macro to call a function and check its int32 return code
  */
-#define UT_TEST_FUNCTION_RC(func, exp)                                         \
-  {                                                                            \
-    int32 rcexp = exp;                                                         \
-    int32 rcact = func;                                                        \
-    UtAssert_True(rcact == rcexp, "%s (%ld) == %s (%ld)", #func, (long)rcact,  \
-                  #exp, (long)rcexp);                                          \
-  }
+#define UT_TEST_FUNCTION_RC(func, exp)                                                                \
+    {                                                                                                 \
+        int32 rcexp = exp;                                                                            \
+        int32 rcact = func;                                                                           \
+        UtAssert_True(rcact == rcexp, "%s (%ld) == %s (%ld)", #func, (long)rcact, #exp, (long)rcexp); \
+    }
 
 /*
  * Macro to add a test case to the list of tests to execute
  */
-#define ADD_TEST(test)                                                         \
-  UtTest_Add((Test_##test), Generic_star_tracker_UT_Setup,                     \
-             Generic_star_tracker_UT_TearDown, #test)
+#define ADD_TEST(test) UtTest_Add((Test_##test), Generic_star_tracker_UT_Setup, Generic_star_tracker_UT_TearDown, #test)
 
 /*
  * Setup function prior to every test

@@ -58,7 +58,7 @@ static int32 UT_CheckEvent_Hook(void *UserObj, int32 StubRetcode, uint32 CallCou
 {
     UT_CheckEvent_t *State = UserObj;
     uint16           EventId;
-    const char *     Spec;
+    const char      *Spec;
 
     /*
      * The CFE_EVS_SendEvent stub passes the EventID as the
@@ -269,8 +269,8 @@ void Test_GENERIC_STAR_TRACKER_ProcessCommandPacket(void)
     /* a buffer large enough for any command message */
     union
     {
-        CFE_SB_Buffer_t      SBBuf;
-        GENERIC_STAR_TRACKER_NoArgs_cmd_t  Noop;
+        CFE_SB_Buffer_t                   SBBuf;
+        GENERIC_STAR_TRACKER_NoArgs_cmd_t Noop;
     } TestMsg;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
@@ -317,9 +317,9 @@ void Test_GENERIC_STAR_TRACKER_ProcessGroundCommand(void)
     /* a buffer large enough for any command message */
     union
     {
-        CFE_SB_Buffer_t           SBBuf;
-        GENERIC_STAR_TRACKER_NoArgs_cmd_t       Noop;
-        GENERIC_STAR_TRACKER_NoArgs_cmd_t       Reset;
+        CFE_SB_Buffer_t                   SBBuf;
+        GENERIC_STAR_TRACKER_NoArgs_cmd_t Noop;
+        GENERIC_STAR_TRACKER_NoArgs_cmd_t Reset;
     } TestMsg;
     UT_CheckEvent_t EventTest;
 
@@ -391,7 +391,8 @@ void Test_GENERIC_STAR_TRACKER_ReportHousekeeping(void)
 
     /* Confirm message sent*/
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_SB_TransmitMsg)) == 1, "CFE_SB_TransmitMsg() called once");
-    UtAssert_True(MsgSend == &GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.TlmHeader.Msg, "CFE_SB_TransmitMsg() address matches expected");
+    UtAssert_True(MsgSend == &GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.TlmHeader.Msg,
+                  "CFE_SB_TransmitMsg() address matches expected");
 
     /* Confirm timestamp msg address */
     UtAssert_True(UT_GetStubCount(UT_KEY(CFE_SB_TimeStampMsg)) == 1, "CFE_SB_TimeStampMsg() called once");

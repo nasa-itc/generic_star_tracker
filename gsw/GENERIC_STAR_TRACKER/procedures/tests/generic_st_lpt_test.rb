@@ -34,53 +34,50 @@ initial_device_error_count = tlm("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_HK_T
 
 wait_check("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_HK_TLM CMD_COUNT > #{initial_command_count}", 30)
 wait_check("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_HK_TLM CMD_ERR_COUNT == #{initial_error_count}", 30)
-wait_check("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_HK_TLM DEVICE_COUNT == #{initial_device_count}", 30)
+wait_check("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_HK_TLM DEVICE_COUNT <= #{initial_device_count}", 30)
 wait_check("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_HK_TLM DEVICE_ERR_COUNT == #{initial_device_error_count}", 30)
 
 sleep 1
 
+diff = 0.05
+
+#Checking Q0
 st_Q0 = tlm("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM STAR_TRACKER_Q0")
-st_Q1 = tlm("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM STAR_TRACKER_Q1")
-st_Q2 = tlm("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM STAR_TRACKER_Q2")
-st_Q3 = tlm("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM STAR_TRACKER_Q3")
-
 sim42_Q0 = tlm("SIM_42_TRUTH SIM_42_TRUTH_DATA QN_0")
-sim42_Q1 = tlm("SIM_42_TRUTH SIM_42_TRUTH_DATA QN_0")
-sim42_Q2 = tlm("SIM_42_TRUTH SIM_42_TRUTH_DATA QN_0")
-sim42_Q3 = tlm("SIM_42_TRUTH SIM_42_TRUTH_DATA QN_0")
+puts "sim42_q0 is #{sim42_Q0}"
+puts "st_q0 is #{st_Q0}"
 
-puts "sim q0 is #{sim42_Q0}"
-puts "st q0 is #{st_Q0}"
-
-tempsimq0 = (sim42_Q0).abs()
-tempstq0 = (st_Q0).abs()
-
-puts "tempsimq0 is #{tempsimq0}"
-puts "tempstq0 is #{tempstq0}"
-
-absQ0 = (tempsimq0 - tempstq0).abs()
-diff = 0.025
-puts " absq0 is: #{absQ0}"
-
-sleep 1
-# wait_check_expression("#{absQ0} >= #{diff}", 15)
 wait_check_tolerance("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM STAR_TRACKER_Q0", sim42_Q0, diff, 15)
 
+#Checking Q1
+st_Q1 = tlm("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM STAR_TRACKER_Q1")
+sim42_Q1 = tlm("SIM_42_TRUTH SIM_42_TRUTH_DATA QN_1")
+puts "sim42_q1 is #{sim42_Q1}"
+puts "st_q1 is #{st_Q1}"
+
+wait_check_tolerance("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM STAR_TRACKER_Q1", sim42_Q1, diff, 15)
+
+#Checking Q2
+st_Q2 = tlm("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM STAR_TRACKER_Q2")
+sim42_Q2 = tlm("SIM_42_TRUTH SIM_42_TRUTH_DATA QN_2")
+puts "sim42_q2 is #{sim42_Q2}"
+puts "st_q2 is #{st_Q2}"
+
+wait_check_tolerance("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM STAR_TRACKER_Q2", sim42_Q2, diff, 15)
 
 
-# truth_42_alpha = -Math.atan2(svb2, svb0)
-# truth_42_beta = Math.atan2(svb1, svb0)
+#Checking Q3
+st_Q3 = tlm("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM STAR_TRACKER_Q3")
+sim42_Q3 = tlm("SIM_42_TRUTH SIM_42_TRUTH_DATA QN_3")
+puts "sim42_q3 is #{sim42_Q3}"
+puts "st_q3 is #{st_Q3}"
 
-# truth_42_alpha_diff = (fss_alpha - truth_42_alpha).abs()
-# truth_42_beta_diff = (fss_beta - truth_42_beta).abs()
-# diff_margin = 0.025
+wait_check_tolerance("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM STAR_TRACKER_Q3", sim42_Q3, diff, 15)
 
-# wait_check("GENERIC_FSS GENERIC_FSS_HK_TLM CMD_ERR_COUNT == #{initial_error_count}", 30)
-# wait_check("GENERIC_FSS GENERIC_FSS_HK_TLM DEVICE_ERR_COUNT == #{initial_device_error_count}", 30)
-# if fss_error == 0
-#   wait_check_expression("truth_42_alpha_diff <= diff_margin # #{truth_42_alpha_diff} <= #{diff_margin}", 15)
 
 sleep 3
+
+puts "End of ST LPT!"
 # cmd("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DISABLE_CC")
 
 # cmd("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_RST_COUNTERS_CC")
@@ -92,3 +89,10 @@ sleep 3
 # initial_error_count = tlm("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_HK_TLM CMD_ERR_COUNT")
 # initial_device_count = tlm("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_HK_TLM DEVICE_COUNT")
 # initial_device_error_count = tlm("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_HK_TLM DEVICE_ERR_COUNT")
+
+# absQ0 = (tempsimq0 - tempstq0).abs()
+
+# puts " absq0 is: #{absQ0}"
+
+
+

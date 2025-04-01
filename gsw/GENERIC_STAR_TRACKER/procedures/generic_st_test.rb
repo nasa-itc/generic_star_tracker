@@ -2,7 +2,7 @@ require 'cosmos'
 require 'cosmos/script'
 require 'mission_lib.rb'
 
-class LPT < Cosmos::Test
+class ST_LPT < Cosmos::Test
   def setup
       enable_TO_and_verify()
   end
@@ -15,7 +15,7 @@ class LPT < Cosmos::Test
   end
 end
 
-class CPT < Cosmos::Test
+class ST_CPT < Cosmos::Test
   def setup
       
   end
@@ -31,8 +31,8 @@ end
 class Generic_st_Test < Cosmos::TestSuite
   def initialize
       super()
-      add_test('CPT')
-      add_test('LPT')
+      add_test('ST_CPT')
+      add_test('ST_LPT')
   end
 
   def setup

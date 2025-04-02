@@ -8,6 +8,7 @@ class ST_LPT < Cosmos::Test
   end
 
   def test_lpt
+    start("tests/generic_st_lpt_test.rb")
   end
 
   def teardown
@@ -21,10 +22,10 @@ class ST_CPT < Cosmos::Test
   end
 
   def test_cpt
+    start("tests/generic_st_cpt_test.rb")
   end
 
   def teardown
-
   end
 end
 

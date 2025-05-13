@@ -13,6 +13,7 @@
 */
 #include "device_cfg.h"
 #include "hwlib.h"
+#include "libuart.h"
 #include "generic_star_tracker_platform_cfg.h"
 
 /*

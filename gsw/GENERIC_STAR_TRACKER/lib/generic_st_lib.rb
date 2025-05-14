@@ -78,6 +78,44 @@ def confirm_generic_star_tracker_data()
     
     get_generic_star_tracker_data()
     # Note these checks assume default simulator configuration
+    diff = 1 
+    #Todo check values with lower margin
+    #Margin is large, testing that Q values not equal to 0
+
+    #Checking Q0
+    st_Q0 = tlm("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM STAR_TRACKER_Q0")
+    sim42_Q0 = tlm("SIM_42_TRUTH SIM_42_TRUTH_DATA QN_0")
+    puts "sim42_q0 is #{sim42_Q0}"
+    puts "st_q0 is #{st_Q0}"
+
+    wait_check_tolerance("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM STAR_TRACKER_Q0", tlm("SIM_42_TRUTH SIM_42_TRUTH_DATA QN_0"), diff, 30)
+
+    #Checking Q1
+    st_Q1 = tlm("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM STAR_TRACKER_Q1")
+    sim42_Q1 = tlm("SIM_42_TRUTH SIM_42_TRUTH_DATA QN_1")
+    puts "sim42_q1 is #{sim42_Q1}"
+    puts "st_q1 is #{st_Q1}"
+
+    wait_check_tolerance("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM STAR_TRACKER_Q1", tlm("SIM_42_TRUTH SIM_42_TRUTH_DATA QN_1"), diff, 30)
+
+    #Checking Q2
+    st_Q2 = tlm("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM STAR_TRACKER_Q2")
+    sim42_Q2 = tlm("SIM_42_TRUTH SIM_42_TRUTH_DATA QN_2")
+    puts "sim42_q2 is #{sim42_Q2}"
+    puts "st_q2 is #{st_Q2}"
+
+    wait_check_tolerance("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM STAR_TRACKER_Q2", tlm("SIM_42_TRUTH SIM_42_TRUTH_DATA QN_2"), diff, 30)
+
+
+    #Checking Q3
+    st_Q3 = tlm("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM STAR_TRACKER_Q3")
+    sim42_Q3 = tlm("SIM_42_TRUTH SIM_42_TRUTH_DATA QN_3")
+    puts "sim42_q3 is #{sim42_Q3}"
+    puts "st_q3 is #{st_Q3}"
+
+    wait_check_tolerance("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_DATA_TLM STAR_TRACKER_Q3", tlm("SIM_42_TRUTH SIM_42_TRUTH_DATA QN_3"), diff, 30)
+
+
 
     get_generic_star_tracker_hk()
     check("GENERIC_STAR_TRACKER GENERIC_STAR_TRACKER_HK_TLM DEVICE_COUNT >= #{dev_cmd_cnt}")

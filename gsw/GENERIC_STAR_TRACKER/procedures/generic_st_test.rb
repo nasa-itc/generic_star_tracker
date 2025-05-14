@@ -1,44 +1,51 @@
 require 'cosmos'
 require 'cosmos/script'
-require 'mission_lib.rb'
+require 'generic_st_lib.rb'
 
-class ST_LPT < Cosmos::Test
+class GENERIC_STAR_TRACKER_Functional_Test < Cosmos::Test
   def setup
-      enable_TO_and_verify()
+    safe_generic_star_tracker()
   end
 
-  def test_lpt
-    start("tests/generic_st_lpt_test.rb")
+  def test_application
+      start("tests/generic_st_app_test.rb")
+  end
+
+  def test_device
+      start("tests/generic_st_device_test.rb")
   end
 
   def teardown
-      cmd("CFS_RADIO TO_PAUSE_OUTPUT")
+    safe_generic_star_tracker()
   end
 end
 
-class ST_CPT < Cosmos::Test
-  def setup
-      
+class GENERIC_STAR_TRACKER_Automated_Scenario_Test < Cosmos::Test
+  def setup 
+      safe_generic_star_tracker()
   end
 
-  def test_cpt
-    start("tests/generic_st_cpt_test.rb")
+  def test_AST
+      start("tests/generic_st_ast_test.rb")
   end
 
   def teardown
+      safe_generic_star_tracker()
   end
 end
 
 class Generic_st_Test < Cosmos::TestSuite
   def initialize
       super()
-      add_test('ST_CPT')
-      add_test('ST_LPT')
+      add_test('GENERIC_STAR_TRACKER_Functional_Test')
+      add_test('GENERIC_STAR_TRACKER_Automated_Scenario_Test')
   end
 
   def setup
+    safe_generic_star_tracker()
   end
   
   def teardown
+    safe_generic_star_tracker()
   end
 end

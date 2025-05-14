@@ -269,6 +269,11 @@ void GENERIC_STAR_TRACKER_ProcessGroundCommand(void)
             if (GENERIC_STAR_TRACKER_VerifyCmdLength(GENERIC_STAR_TRACKER_AppData.MsgPtr,
                                                      sizeof(GENERIC_STAR_TRACKER_NoArgs_cmd_t)) == OS_SUCCESS)
             {
+                /* Do any necessary checks, none for a NOOP */
+
+                /* Increment command success or error counter, NOOP can only be successful */
+                GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.CommandCount++;
+                
                 /* Second, send EVS event on successful receipt ground commands*/
                 CFE_EVS_SendEvent(GENERIC_STAR_TRACKER_CMD_NOOP_INF_EID, CFE_EVS_EventType_INFORMATION,
                                   "GENERIC_STAR_TRACKER: NOOP command received");
@@ -453,6 +458,9 @@ void GENERIC_STAR_TRACKER_Enable(void)
     /* Check that device is disabled */
     if (GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.DeviceEnabled == GENERIC_STAR_TRACKER_DEVICE_DISABLED)
     {
+        /* Increment command success counter */
+        GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.CommandCount++;
+
         /*
         ** Initialize hardware interface data
         ** TODO: Make specific to your application depending on protocol in use
@@ -482,7 +490,8 @@ void GENERIC_STAR_TRACKER_Enable(void)
     }
     else
     {
-        GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.DeviceErrorCount++;
+        /* Increment command error count */
+        GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.CommandErrorCount++;
         CFE_EVS_SendEvent(GENERIC_STAR_TRACKER_ENABLE_ERR_EID, CFE_EVS_EventType_ERROR,
                           "GENERIC_STAR_TRACKER: Device enable failed, already enabled");
     }
@@ -500,6 +509,9 @@ void GENERIC_STAR_TRACKER_Disable(void)
     /* Check that device is enabled */
     if (GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.DeviceEnabled == GENERIC_STAR_TRACKER_DEVICE_ENABLED)
     {
+        /* Increment command success counter */
+        GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.CommandCount++;
+
         /* Open device specific protocols */
         status = uart_close_port(&GENERIC_STAR_TRACKER_AppData.Generic_star_trackerUart);
         if (status == OS_SUCCESS)
@@ -518,7 +530,8 @@ void GENERIC_STAR_TRACKER_Disable(void)
     }
     else
     {
-        GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.DeviceErrorCount++;
+        /* Increment command error count */
+        GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.CommandErrorCount++;
         CFE_EVS_SendEvent(GENERIC_STAR_TRACKER_DISABLE_ERR_EID, CFE_EVS_EventType_ERROR,
                           "GENERIC_STAR_TRACKER: Device disable failed, already disabled");
     }
@@ -536,12 +549,7 @@ int32 GENERIC_STAR_TRACKER_VerifyCmdLength(CFE_MSG_Message_t *msg, uint16 expect
     size_t            actual_length = 0;
 
     CFE_MSG_GetSize(msg, &actual_length);
-    if (expected_length == actual_length)
-    {
-        /* Increment the command counter upon receipt of an invalid command */
-        GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.CommandCount++;
-    }
-    else
+    if (expected_length != actual_length)
     {
         CFE_MSG_GetMsgId(msg, &msg_id);
         CFE_MSG_GetFcnCode(msg, &cmd_code);

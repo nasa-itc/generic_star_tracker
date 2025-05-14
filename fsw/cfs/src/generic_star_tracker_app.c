@@ -273,7 +273,7 @@ void GENERIC_STAR_TRACKER_ProcessGroundCommand(void)
 
                 /* Increment command success or error counter, NOOP can only be successful */
                 GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.CommandCount++;
-                
+
                 /* Second, send EVS event on successful receipt ground commands*/
                 CFE_EVS_SendEvent(GENERIC_STAR_TRACKER_CMD_NOOP_INF_EID, CFE_EVS_EventType_INFORMATION,
                                   "GENERIC_STAR_TRACKER: NOOP command received");

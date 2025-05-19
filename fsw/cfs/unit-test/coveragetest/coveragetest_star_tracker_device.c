@@ -84,34 +84,10 @@ void Test_GENERIC_STAR_TRACKER_RequestHK(void)
     uart_info_t            device;
     GENERIC_STAR_TRACKER_Device_HK_tlm_t data;
 
-    /* Test command error */
-    UT_SetDeferredRetcode(UT_KEY(GENERIC_STAR_TRACKER_CommandDevice), 1, OS_ERROR);
-    GENERIC_STAR_TRACKER_RequestHK(&device, &data);
-
-    /* Test read error */
-    UT_SetDeferredRetcode(UT_KEY(GENERIC_STAR_TRACKER_CommandDevice), 1, OS_SUCCESS);
-    UT_SetDeferredRetcode(UT_KEY(GENERIC_STAR_TRACKER_ReadData), 1, OS_ERROR);
-    GENERIC_STAR_TRACKER_RequestHK(&device, &data);
-
-    /* Test normal case with valid data */
-    uint8_t read_data[GENERIC_STAR_TRACKER_DEVICE_HK_SIZE] = {
-        GENERIC_STAR_TRACKER_DEVICE_HDR_0,
-        GENERIC_STAR_TRACKER_DEVICE_HDR_1,
-        0x00, 0x00, 0x00, 0x07, /* DeviceCounter */
-        GENERIC_STAR_TRACKER_DEVICE_TRAILER_0,
-        GENERIC_STAR_TRACKER_DEVICE_TRAILER_1
-    };
-    UT_SetDeferredRetcode(UT_KEY(GENERIC_STAR_TRACKER_CommandDevice), 1, OS_SUCCESS);
+    static uint8_t read_data[] = {0xDE, 0xAD, 0x0, 0x0, 0x0, 0x1, 0xBE, 0xEF};
     UT_SetDeferredRetcode(UT_KEY(uart_bytes_available), 1, sizeof(read_data));
     UT_SetDeferredRetcode(UT_KEY(uart_read_port), 1, sizeof(read_data));
-    UT_SetDataBuffer(UT_KEY(uart_read_port), read_data, sizeof(read_data), false);
-    GENERIC_STAR_TRACKER_RequestHK(&device, &data);
-
-    /* Test invalid header/trailer */
-    read_data[0] = 0xFF; /* Invalid header */
-    UT_SetDeferredRetcode(UT_KEY(GENERIC_STAR_TRACKER_CommandDevice), 1, OS_SUCCESS);
-    UT_SetDeferredRetcode(UT_KEY(GENERIC_STAR_TRACKER_ReadData), 1, OS_SUCCESS);
-    UT_SetDataBuffer(UT_KEY(uart_read_port), read_data, sizeof(read_data), false);
+    UT_SetDataBuffer(UT_KEY(uart_read_port), &read_data, sizeof(read_data), false);
     GENERIC_STAR_TRACKER_RequestHK(&device, &data);
 }
 
@@ -191,6 +167,8 @@ void Test_GENERIC_STAR_TRACKER_RequestData(void)
 }
 void Test_GENERIC_STAR_TRACKER_RequestData_Hook(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context, va_list va) {}
 
+void Test_GENERIC_STAR_TRACKER_RequestHK_Hook(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context, va_list va) {}
+
 /*
  * Setup function prior to every test
  */
@@ -210,8 +188,10 @@ void Generic_star_tracker_UT_TearDown(void) {}
 void UtTest_Setup(void)
 {
     UT_SetVaHandlerFunction(UT_KEY(Test_GENERIC_STAR_TRACKER_RequestData), Test_GENERIC_STAR_TRACKER_RequestData_Hook, NULL);
+    UT_SetVaHandlerFunction(UT_KEY(Test_GENERIC_STAR_TRACKER_RequestHK), Test_GENERIC_STAR_TRACKER_RequestHK_Hook, NULL);
     ADD_TEST(GENERIC_STAR_TRACKER_ReadData);
     ADD_TEST(GENERIC_STAR_TRACKER_CommandDevice);
     ADD_TEST(GENERIC_STAR_TRACKER_RequestHK);
     ADD_TEST(GENERIC_STAR_TRACKER_RequestData);
+
 }

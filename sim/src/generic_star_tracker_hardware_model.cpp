@@ -185,7 +185,7 @@ namespace Nos3
 
         out_data[10] = data_point->is_generic_star_tracker_data_valid() ? 1 : 0;
 
-        sim_logger->debug("Generic_star_trackerHardwareModel::create_generic_star_tracker_data: is_valid=%d, data_point=%f, %f, %f, %f, converted values=%u, %u, %u, %u.", out_data[14], dq0, dq1, dq2, dq3, q0, q1, q2, q3);
+        sim_logger->debug("Generic_star_trackerHardwareModel::create_generic_star_tracker_data: data_point=%f, %f, %f, %f, converted values=%u, %u, %u, %u.", dq0, dq1, dq2, dq3, q0, q1, q2, q3);
 
         /* Streaming data trailer - 0xBEEF */
         out_data[11] = 0xBE;

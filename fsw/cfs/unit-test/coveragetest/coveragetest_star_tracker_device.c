@@ -81,7 +81,7 @@ void Test_GENERIC_STAR_TRACKER_CommandDevice(void)
 
 void Test_GENERIC_STAR_TRACKER_RequestHK(void)
 {
-    uart_info_t            device;
+    uart_info_t                          device;
     GENERIC_STAR_TRACKER_Device_HK_tlm_t data;
 
     static uint8_t read_data[] = {0xDE, 0xAD, 0x0, 0x0, 0x0, 0x1, 0xBE, 0xEF};
@@ -93,7 +93,7 @@ void Test_GENERIC_STAR_TRACKER_RequestHK(void)
 
 void Test_GENERIC_STAR_TRACKER_RequestData(void)
 {
-    uart_info_t              device;
+    uart_info_t                            device;
     GENERIC_STAR_TRACKER_Device_Data_tlm_t data;
 
     /* Test command error */
@@ -107,23 +107,27 @@ void Test_GENERIC_STAR_TRACKER_RequestData(void)
 
     /* Test normal case with valid data */
     uint8_t read_data[GENERIC_STAR_TRACKER_DEVICE_DATA_SIZE];
-    
+
     /* Set header bytes */
-    read_data[0] = GENERIC_STAR_TRACKER_DEVICE_HDR_0;    /* 0xDE */
-    read_data[1] = GENERIC_STAR_TRACKER_DEVICE_HDR_1;    /* 0xAD */
-    
+    read_data[0] = GENERIC_STAR_TRACKER_DEVICE_HDR_0; /* 0xDE */
+    read_data[1] = GENERIC_STAR_TRACKER_DEVICE_HDR_1; /* 0xAD */
+
     /* Set quaternion values */
-    read_data[2] = 0x7F; read_data[3] = 0xFF;  /* Q0: 32767 (max positive) */
-    read_data[4] = 0x7F; read_data[5] = 0xFF;  /* Q1: 32767 (max positive) */
-    read_data[6] = 0x7F; read_data[7] = 0xFF;  /* Q2: 32767 (max positive) */
-    read_data[8] = 0x7F; read_data[9] = 0xFF;  /* Q3: 32767 (max positive) */
-    
+    read_data[2] = 0x7F;
+    read_data[3] = 0xFF; /* Q0: 32767 (max positive) */
+    read_data[4] = 0x7F;
+    read_data[5] = 0xFF; /* Q1: 32767 (max positive) */
+    read_data[6] = 0x7F;
+    read_data[7] = 0xFF; /* Q2: 32767 (max positive) */
+    read_data[8] = 0x7F;
+    read_data[9] = 0xFF; /* Q3: 32767 (max positive) */
+
     /* Set IsValid flag */
     read_data[10] = 0x01;
-    
+
     /* Set trailer bytes */
-    read_data[11] = GENERIC_STAR_TRACKER_DEVICE_TRAILER_0;  /* 0xBE */
-    read_data[12] = GENERIC_STAR_TRACKER_DEVICE_TRAILER_1;  /* 0xEF */
+    read_data[11] = GENERIC_STAR_TRACKER_DEVICE_TRAILER_0; /* 0xBE */
+    read_data[12] = GENERIC_STAR_TRACKER_DEVICE_TRAILER_1; /* 0xEF */
 
     /* Set up the test data for both CommandDevice and ReadData */
     UT_SetDeferredRetcode(UT_KEY(GENERIC_STAR_TRACKER_CommandDevice), 1, OS_SUCCESS);
@@ -134,10 +138,14 @@ void Test_GENERIC_STAR_TRACKER_RequestData(void)
     GENERIC_STAR_TRACKER_RequestData(&device, &data);
 
     /* Test case with minimum quaternion values */
-    read_data[2] = 0x80; read_data[3] = 0x00;  /* Q0: -32768 (min negative) */
-    read_data[4] = 0x80; read_data[5] = 0x00;  /* Q1: -32768 (min negative) */
-    read_data[6] = 0x80; read_data[7] = 0x00;  /* Q2: -32768 (min negative) */
-    read_data[8] = 0x80; read_data[9] = 0x00;  /* Q3: -32768 (min negative) */
+    read_data[2] = 0x80;
+    read_data[3] = 0x00; /* Q0: -32768 (min negative) */
+    read_data[4] = 0x80;
+    read_data[5] = 0x00; /* Q1: -32768 (min negative) */
+    read_data[6] = 0x80;
+    read_data[7] = 0x00; /* Q2: -32768 (min negative) */
+    read_data[8] = 0x80;
+    read_data[9] = 0x00; /* Q3: -32768 (min negative) */
     UT_SetDeferredRetcode(UT_KEY(GENERIC_STAR_TRACKER_CommandDevice), 1, OS_SUCCESS);
     UT_SetDeferredRetcode(UT_KEY(uart_bytes_available), 1, sizeof(read_data));
     UT_SetDeferredRetcode(UT_KEY(uart_read_port), 1, sizeof(read_data));
@@ -146,10 +154,14 @@ void Test_GENERIC_STAR_TRACKER_RequestData(void)
     GENERIC_STAR_TRACKER_RequestData(&device, &data);
 
     /* Test case with zero quaternion values */
-    read_data[2] = 0x00; read_data[3] = 0x00;  /* Q0: 0 */
-    read_data[4] = 0x00; read_data[5] = 0x00;  /* Q1: 0 */
-    read_data[6] = 0x00; read_data[7] = 0x00;  /* Q2: 0 */
-    read_data[8] = 0x00; read_data[9] = 0x00;  /* Q3: 0 */
+    read_data[2] = 0x00;
+    read_data[3] = 0x00; /* Q0: 0 */
+    read_data[4] = 0x00;
+    read_data[5] = 0x00; /* Q1: 0 */
+    read_data[6] = 0x00;
+    read_data[7] = 0x00; /* Q2: 0 */
+    read_data[8] = 0x00;
+    read_data[9] = 0x00; /* Q3: 0 */
     UT_SetDeferredRetcode(UT_KEY(GENERIC_STAR_TRACKER_CommandDevice), 1, OS_SUCCESS);
     UT_SetDeferredRetcode(UT_KEY(uart_bytes_available), 1, sizeof(read_data));
     UT_SetDeferredRetcode(UT_KEY(uart_read_port), 1, sizeof(read_data));
@@ -165,9 +177,15 @@ void Test_GENERIC_STAR_TRACKER_RequestData(void)
     UT_SetDataBuffer(UT_KEY(GENERIC_STAR_TRACKER_ReadData), read_data, sizeof(read_data), false);
     GENERIC_STAR_TRACKER_RequestData(&device, &data);
 }
-void Test_GENERIC_STAR_TRACKER_RequestData_Hook(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context, va_list va) {}
+void Test_GENERIC_STAR_TRACKER_RequestData_Hook(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context,
+                                                va_list va)
+{
+}
 
-void Test_GENERIC_STAR_TRACKER_RequestHK_Hook(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context, va_list va) {}
+void Test_GENERIC_STAR_TRACKER_RequestHK_Hook(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context,
+                                              va_list va)
+{
+}
 
 /*
  * Setup function prior to every test
@@ -187,11 +205,12 @@ void Generic_star_tracker_UT_TearDown(void) {}
  */
 void UtTest_Setup(void)
 {
-    UT_SetVaHandlerFunction(UT_KEY(Test_GENERIC_STAR_TRACKER_RequestData), Test_GENERIC_STAR_TRACKER_RequestData_Hook, NULL);
-    UT_SetVaHandlerFunction(UT_KEY(Test_GENERIC_STAR_TRACKER_RequestHK), Test_GENERIC_STAR_TRACKER_RequestHK_Hook, NULL);
+    UT_SetVaHandlerFunction(UT_KEY(Test_GENERIC_STAR_TRACKER_RequestData), Test_GENERIC_STAR_TRACKER_RequestData_Hook,
+                            NULL);
+    UT_SetVaHandlerFunction(UT_KEY(Test_GENERIC_STAR_TRACKER_RequestHK), Test_GENERIC_STAR_TRACKER_RequestHK_Hook,
+                            NULL);
     ADD_TEST(GENERIC_STAR_TRACKER_ReadData);
     ADD_TEST(GENERIC_STAR_TRACKER_CommandDevice);
     ADD_TEST(GENERIC_STAR_TRACKER_RequestHK);
     ADD_TEST(GENERIC_STAR_TRACKER_RequestData);
-
 }

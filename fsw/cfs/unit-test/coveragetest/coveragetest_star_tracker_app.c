@@ -130,8 +130,6 @@ static void UT_CheckEvent_Setup(UT_CheckEvent_t *Evt, uint16 ExpectedEvent, cons
 **********************************************************************************
 */
 
-
-
 void Test_ST_AppMain(void)
 {
     CFE_SB_MsgId_t MsgId = CFE_SB_INVALID_MSG_ID;
@@ -233,7 +231,8 @@ void Test_ST_AppMain(void)
     /*
      * Confirm that the event was generated
      */
-    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER_PIPE_ERR_EID generated (%u)", (unsigned int)EventTest.MatchCount);
+    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER_PIPE_ERR_EID generated (%u)",
+                  (unsigned int)EventTest.MatchCount);
 }
 
 void Test_GENERIC_STAR_TRACKER_AppInit(void)
@@ -263,9 +262,8 @@ void Test_GENERIC_STAR_TRACKER_AppInit(void)
     UT_SetDeferredRetcode(UT_KEY(CFE_SB_Subscribe), 2, CFE_SB_BAD_ARGUMENT);
     UT_TEST_FUNCTION_RC(GENERIC_STAR_TRACKER_AppInit(), CFE_SB_BAD_ARGUMENT);
 
-     UT_SetDeferredRetcode(UT_KEY(CFE_EVS_SendEvent), 1, CFE_EVS_INVALID_PARAMETER);
+    UT_SetDeferredRetcode(UT_KEY(CFE_EVS_SendEvent), 1, CFE_EVS_INVALID_PARAMETER);
     UT_TEST_FUNCTION_RC(GENERIC_STAR_TRACKER_AppInit(), -1040187384);
-
 
     // UT_SetDeferredRetcode(UT_KEY(CFE_EVS_SendEvent), 1, CFE_SB_BAD_ARGUMENT);
     // UT_TEST_FUNCTION_RC(GENERIC_STAR_TRACKER_AppInit(), CFE_SB_BAD_ARGUMENT);
@@ -305,7 +303,7 @@ void Test_GENERIC_STAR_TRACKER_ProcessCommandPacket(void)
     /* a buffer large enough for any command message */
     union
     {
-        CFE_SB_Buffer_t     SBBuf;
+        CFE_SB_Buffer_t                   SBBuf;
         GENERIC_STAR_TRACKER_NoArgs_cmd_t Noop;
     } TestMsg;
     CFE_SB_MsgId_t    TestMsgId;
@@ -347,7 +345,8 @@ void Test_GENERIC_STAR_TRACKER_ProcessCommandPacket(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     GENERIC_STAR_TRACKER_ProcessCommandPacket();
-    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER_CMD_ERR_EID generated (%u)", (unsigned int)EventTest.MatchCount);
+    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER_CMD_ERR_EID generated (%u)",
+                  (unsigned int)EventTest.MatchCount);
 }
 
 void Test_GENERIC_STAR_TRACKER_ProcessGroundCommand(void)
@@ -363,7 +362,7 @@ void Test_GENERIC_STAR_TRACKER_ProcessGroundCommand(void)
     /* a buffer large enough for any command message */
     union
     {
-        CFE_SB_Buffer_t     SBBuf;
+        CFE_SB_Buffer_t                   SBBuf;
         GENERIC_STAR_TRACKER_NoArgs_cmd_t Noop;
         GENERIC_STAR_TRACKER_NoArgs_cmd_t Reset;
         GENERIC_STAR_TRACKER_NoArgs_cmd_t Enable;
@@ -403,7 +402,8 @@ void Test_GENERIC_STAR_TRACKER_ProcessGroundCommand(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_CheckEvent_Setup(&EventTest, GENERIC_STAR_TRACKER_LEN_ERR_EID, NULL);
     GENERIC_STAR_TRACKER_ProcessGroundCommand();
-    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER_LEN_ERR_EID generated (%u)", (unsigned int)EventTest.MatchCount);
+    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER_LEN_ERR_EID generated (%u)",
+                  (unsigned int)EventTest.MatchCount);
 
     /* test dispatch of RESET */
     FcnCode = GENERIC_STAR_TRACKER_RESET_COUNTERS_CC;
@@ -425,7 +425,8 @@ void Test_GENERIC_STAR_TRACKER_ProcessGroundCommand(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_CheckEvent_Setup(&EventTest, GENERIC_STAR_TRACKER_LEN_ERR_EID, NULL);
     GENERIC_STAR_TRACKER_ProcessGroundCommand();
-    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER_LEN_ERR_EID generated (%u)", (unsigned int)EventTest.MatchCount);
+    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER_LEN_ERR_EID generated (%u)",
+                  (unsigned int)EventTest.MatchCount);
 
     /* test dispatch of ENABLE */
     FcnCode = GENERIC_STAR_TRACKER_ENABLE_CC;
@@ -447,7 +448,8 @@ void Test_GENERIC_STAR_TRACKER_ProcessGroundCommand(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_CheckEvent_Setup(&EventTest, GENERIC_STAR_TRACKER_LEN_ERR_EID, NULL);
     GENERIC_STAR_TRACKER_ProcessGroundCommand();
-    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER_LEN_ERR_EID generated (%u)", (unsigned int)EventTest.MatchCount);
+    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER_LEN_ERR_EID generated (%u)",
+                  (unsigned int)EventTest.MatchCount);
 
     /* test dispatch of DISABLE */
     FcnCode = GENERIC_STAR_TRACKER_DISABLE_CC;
@@ -469,7 +471,8 @@ void Test_GENERIC_STAR_TRACKER_ProcessGroundCommand(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_CheckEvent_Setup(&EventTest, GENERIC_STAR_TRACKER_LEN_ERR_EID, NULL);
     GENERIC_STAR_TRACKER_ProcessGroundCommand();
-    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER_LEN_ERR_EID generated (%u)", (unsigned int)EventTest.MatchCount);
+    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER_LEN_ERR_EID generated (%u)",
+                  (unsigned int)EventTest.MatchCount);
 
     /* test dispatch of CONFIG */
     FcnCode = GENERIC_STAR_TRACKER_CONFIG_CC;
@@ -494,7 +497,8 @@ void Test_GENERIC_STAR_TRACKER_ProcessGroundCommand(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_CheckEvent_Setup(&EventTest, GENERIC_STAR_TRACKER_LEN_ERR_EID, NULL);
     GENERIC_STAR_TRACKER_ProcessGroundCommand();
-    UtAssert_True(EventTest.MatchCount == 0, "GENERIC_STAR_TRACKER_LEN_ERR_EID not generated (%u)", (unsigned int)EventTest.MatchCount);
+    UtAssert_True(EventTest.MatchCount == 0, "GENERIC_STAR_TRACKER_LEN_ERR_EID not generated (%u)",
+                  (unsigned int)EventTest.MatchCount);
 
     FcnCode = GENERIC_STAR_TRACKER_CONFIG_CC;
     Size    = sizeof(TestMsg.Config);
@@ -515,7 +519,8 @@ void Test_GENERIC_STAR_TRACKER_ProcessGroundCommand(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_CheckEvent_Setup(&EventTest, GENERIC_STAR_TRACKER_CMD_ERR_EID, NULL);
     GENERIC_STAR_TRACKER_ProcessGroundCommand();
-    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER_CMD_ERR_EID generated (%u)", (unsigned int)EventTest.MatchCount);
+    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER_CMD_ERR_EID generated (%u)",
+                  (unsigned int)EventTest.MatchCount);
 }
 
 void Test_GENERIC_STAR_TRACKER_ReportHousekeeping(void)
@@ -555,7 +560,8 @@ void Test_GENERIC_STAR_TRACKER_ReportHousekeeping(void)
     UT_CheckEvent_t EventTest;
     UT_SetDeferredRetcode(UT_KEY(GENERIC_STAR_TRACKER_RequestHK), 1, OS_ERROR);
     GENERIC_STAR_TRACKER_ReportHousekeeping();
-    UT_CheckEvent_Setup(&EventTest, GENERIC_STAR_TRACKER_REQ_HK_ERR_EID, "GENERIC_STAR_TRACKER: Request device HK reported error -1");
+    UT_CheckEvent_Setup(&EventTest, GENERIC_STAR_TRACKER_REQ_HK_ERR_EID,
+                        "GENERIC_STAR_TRACKER: Request device HK reported error -1");
 }
 
 void Test_GENERIC_STAR_TRACKER_VerifyCmdLength(void)
@@ -595,7 +601,8 @@ void Test_GENERIC_STAR_TRACKER_VerifyCmdLength(void)
     /*
      * Confirm that the event WAS generated
      */
-    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER_LEN_ERR_EID generated (%u)", (unsigned int)EventTest.MatchCount);
+    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER_LEN_ERR_EID generated (%u)",
+                  (unsigned int)EventTest.MatchCount);
 }
 
 void Test_GENERIC_STAR_TRACKER_ReportDeviceTelemetry(void)
@@ -611,10 +618,9 @@ void Test_GENERIC_STAR_TRACKER_ReportDeviceTelemetry(void)
     GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.DeviceEnabled = GENERIC_STAR_TRACKER_DEVICE_DISABLED;
     GENERIC_STAR_TRACKER_ReportDeviceTelemetry();
 
-    GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.DeviceEnabled         = GENERIC_STAR_TRACKER_DEVICE_ENABLED;
+    GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.DeviceEnabled = GENERIC_STAR_TRACKER_DEVICE_ENABLED;
     GENERIC_STAR_TRACKER_ReportDeviceTelemetry();
 }
-
 
 void Test_GENERIC_STAR_TRACKER_Enable(void)
 {
@@ -624,7 +630,8 @@ void Test_GENERIC_STAR_TRACKER_Enable(void)
     GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.DeviceEnabled = GENERIC_STAR_TRACKER_DEVICE_DISABLED;
     UT_SetDeferredRetcode(UT_KEY(uart_init_port), 1, OS_SUCCESS);
     GENERIC_STAR_TRACKER_Enable();
-    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER: Device enabled (%u)", (unsigned int)EventTest.MatchCount);
+    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER: Device enabled (%u)",
+                  (unsigned int)EventTest.MatchCount);
 
     UT_CheckEvent_Setup(&EventTest, GENERIC_STAR_TRACKER_UART_INIT_ERR_EID, NULL);
     GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.DeviceEnabled = GENERIC_STAR_TRACKER_DEVICE_DISABLED;
@@ -649,13 +656,15 @@ void Test_GENERIC_STAR_TRACKER_Disable(void)
     GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.DeviceEnabled = GENERIC_STAR_TRACKER_DEVICE_ENABLED;
     UT_SetDeferredRetcode(UT_KEY(uart_close_port), 1, OS_SUCCESS);
     GENERIC_STAR_TRACKER_Disable();
-    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER: Device disabled (%u)", (unsigned int)EventTest.MatchCount);
+    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER: Device disabled (%u)",
+                  (unsigned int)EventTest.MatchCount);
 
     UT_CheckEvent_Setup(&EventTest, GENERIC_STAR_TRACKER_UART_CLOSE_ERR_EID, NULL);
     GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.DeviceEnabled = GENERIC_STAR_TRACKER_DEVICE_ENABLED;
     UT_SetDeferredRetcode(UT_KEY(uart_close_port), 1, OS_ERROR);
     GENERIC_STAR_TRACKER_Disable();
-    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER: UART port close error (%u)", (unsigned int)EventTest.MatchCount);
+    UtAssert_True(EventTest.MatchCount == 1, "GENERIC_STAR_TRACKER: UART port close error (%u)",
+                  (unsigned int)EventTest.MatchCount);
 
     UT_CheckEvent_Setup(&EventTest, GENERIC_STAR_TRACKER_DISABLE_ERR_EID, NULL);
     GENERIC_STAR_TRACKER_AppData.HkTelemetryPkt.DeviceEnabled = GENERIC_STAR_TRACKER_DEVICE_DISABLED;

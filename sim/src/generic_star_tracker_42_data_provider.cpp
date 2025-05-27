@@ -12,7 +12,7 @@ namespace Nos3
 
         connect_reader_thread_as_42_socket_client(
             config.get("simulator.hardware-model.data-provider.hostname", "localhost"),
-            config.get("simulator.hardware-model.data-provider.port", 4282) );
+            config.get("simulator.hardware-model.data-provider.port", 4242) );
 
         _sc = config.get("simulator.hardware-model.data-provider.spacecraft", 0);
         _st = config.get("simulator.hardware-model.data-provider.star_tracker", 0);

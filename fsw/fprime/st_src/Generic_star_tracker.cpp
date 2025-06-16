@@ -116,6 +116,21 @@ namespace Components {
     this->cmdResponse_out(opCode, cmdSeq, Fw::CmdResponse::OK);
   }
 
+  void Generic_star_tracker :: updateData_handler(const NATIVE_INT_TYPE portNum, NATIVE_UINT_TYPE context)
+  {
+    int32_t status = OS_SUCCESS;
+
+    status = GENERIC_STAR_TRACKER_RequestData(&Generic_star_trackerUart, &Generic_star_trackerData);
+
+    this->tlmWrite_Q0_Data(Generic_star_trackerData.Q0);
+    this->tlmWrite_Q1_Data(Generic_star_trackerData.Q1);
+    this->tlmWrite_Q2_Data(Generic_star_trackerData.Q2);
+    this->tlmWrite_Q3_Data(Generic_star_trackerData.Q3);
+    this->tlmWrite_IsValid(Generic_star_trackerData.IsValid);
+
+    this->STout_out(0, Generic_star_trackerData.Q0, Generic_star_trackerData.Q1, Generic_star_trackerData.Q2, Generic_star_trackerData.Q3, Generic_star_trackerData.IsValid);
+  }
+
   //GENERIC_STAR_TRACKER_RequestData
   void Generic_star_tracker :: REQUEST_DATA_cmdHandler(FwOpcodeType opCode, U32 cmdSeq) {
     int32_t status = OS_SUCCESS;
@@ -142,6 +157,8 @@ namespace Components {
     this->tlmWrite_Q3_Data(Generic_star_trackerData.Q3);
     this->tlmWrite_IsValid(Generic_star_trackerData.IsValid);
 
+
+    this->STout_out(0, Generic_star_trackerData.Q0, Generic_star_trackerData.Q1, Generic_star_trackerData.Q2, Generic_star_trackerData.Q3, Generic_star_trackerData.IsValid);
     this->cmdResponse_out(opCode, cmdSeq, Fw::CmdResponse::OK);
   }
 

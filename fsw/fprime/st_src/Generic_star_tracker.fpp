@@ -31,7 +31,7 @@ module Components {
         @ Reset Counters Command
         async command RESET_COUNTERS()
 
-        @ event with maximum greeting length of 30 characters
+        @ event with maximum greeting length of 40 characters
         event TELEM(
             log_info: string size 40 @< 
         ) severity activity high format "Generic_star_tracker: {}"

@@ -72,12 +72,10 @@ namespace Components {
     {
       HkTelemetryPkt.CommandCount++;
       this->log_ACTIVITY_HI_TELEM("Star Tracker NOOP command success\n");
-      OS_printf("Star Tracker NOOP command success\n");
     }
     else
     {
       this->log_ACTIVITY_HI_TELEM("Star Tracker NOOP command failed!\n");
-      OS_printf("Star Tracker NOOP command failed!\n");
     }
     
     this->tlmWrite_CommandCount(HkTelemetryPkt.CommandCount);
@@ -100,20 +98,17 @@ namespace Components {
       {
         HkTelemetryPkt.DeviceCount++;
         this->log_ACTIVITY_HI_TELEM("RequestHK command success\n");
-        OS_printf("RequestHK command success\n");
       }
       else
       {
         HkTelemetryPkt.DeviceErrorCount++;
         this->log_ACTIVITY_HI_TELEM("RequestHK command failed!\n");
-         OS_printf("RequestHK command failed\n");
       }
     }
     else
     {
       HkTelemetryPkt.CommandErrorCount++;
       this->log_ACTIVITY_HI_TELEM("RequestHK command failed, device disabled!\n");
-       OS_printf("RequestHK command success, device disabled\n");
     }
 
     this->tlmWrite_ReportedComponentCount(Generic_star_trackerHK.DeviceCounter);
@@ -139,25 +134,17 @@ namespace Components {
       {
         HkTelemetryPkt.DeviceCount++;
         this->log_ACTIVITY_HI_TELEM("ST_RequestData: Command Failed");
-        OS_printf("GENERIC_STAR_TRACKER_RequestData command \n");
       }
       else
       {
         HkTelemetryPkt.DeviceErrorCount++;
         this->log_ACTIVITY_HI_TELEM("ST_RequestData: Success!");
-        OS_printf("GENERIC_STAR_TRACKER_RequestData: Success for ST!");
-        OS_printf("Q0: %lf\n", Generic_star_trackerData.Q0);
-        OS_printf("Q1: %lf\n", Generic_star_trackerData.Q1);
-        OS_printf("Q2: %lf\n", Generic_star_trackerData.Q2);
-        OS_printf("Q3: %lf\n", Generic_star_trackerData.Q3);
-        OS_printf("IsValid: %d\n", Generic_star_trackerData.IsValid);
       }
     }
     else
     {
       HkTelemetryPkt.CommandErrorCount++;
       this->log_ACTIVITY_HI_TELEM("Request Data Failed, Device Disabled!");
-      OS_printf("Request Data Failed, Device Disabled!");
     }
     
     this->tlmWrite_ReportedComponentCount(Generic_star_trackerHK.DeviceCounter);
@@ -186,20 +173,17 @@ namespace Components {
           HkTelemetryPkt.DeviceCount++;
           HkTelemetryPkt.DeviceEnabled = GENERIC_ST_DEVICE_DISABLED;
           this->log_ACTIVITY_HI_TELEM("Successfully Disabled Star Tracker!");
-          OS_printf("Successfully Disabled Star Tracker!");
         }
         else
         {
           HkTelemetryPkt.DeviceErrorCount++;
           this->log_ACTIVITY_HI_TELEM("Disable Failed, UART init fail");
-          OS_printf("Disable Failed, UART init fail\n");
         }
     }
     else
     {
       HkTelemetryPkt.CommandErrorCount++;
       this->log_ACTIVITY_HI_TELEM("Disable Failed, Already Disabled");
-      OS_printf("Disable Failed, Already Disabled\n");
     }
 
     this->tlmWrite_CommandCount(HkTelemetryPkt.CommandCount);
@@ -230,20 +214,17 @@ namespace Components {
           HkTelemetryPkt.DeviceCount++;
           HkTelemetryPkt.DeviceEnabled = GENERIC_ST_DEVICE_ENABLED;
           this->log_ACTIVITY_HI_TELEM("Successfully Enabled Star Tracker!");
-          OS_printf("Successfully Enabled Star Tracker!");
         }
         else
         {
           HkTelemetryPkt.DeviceErrorCount++;
           this->log_ACTIVITY_HI_TELEM("Enable Failed, UART init fail");
-          OS_printf("Enable Failed, UART init fail\n");
         }
     }
     else
     {
       HkTelemetryPkt.CommandErrorCount++;
       this->log_ACTIVITY_HI_TELEM("Enable Failed, Already Enabled");
-      OS_printf("Enable Failed, Already Enabled\n");
     }
 
     this->tlmWrite_CommandCount(HkTelemetryPkt.CommandCount);
@@ -262,7 +243,6 @@ namespace Components {
     HkTelemetryPkt.DeviceErrorCount = 0;
 
     this->log_ACTIVITY_HI_TELEM("Reset Counters command successful!");
-    OS_printf("Reset Counters command successful!\n");
     this->tlmWrite_CommandCount(HkTelemetryPkt.CommandCount);
     this->tlmWrite_CommandErrorCount(HkTelemetryPkt.CommandErrorCount);
     this->tlmWrite_DeviceCount(HkTelemetryPkt.DeviceCount);

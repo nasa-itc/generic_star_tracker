@@ -2,6 +2,12 @@ module Components {
     @ generic_star_tracker
     active component Generic_star_tracker {
 
+        @ Component Enable State
+        enum ActiveState {
+            DISABLED @< DISABLED
+            ENABLED @< ENABLED
+        }
+
         # One async command/port is required for active components
         # This should be overridden by the developers with a useful command/port
 
@@ -18,16 +24,23 @@ module Components {
         async command NOOP(
         )
 
+        @ Command to request data
         async command REQUEST_DATA (
         )
 
-        @ event with maximum greeting length of 30 characters
-        event TELEM(
-            log_info: string size 30 @< 
-        ) severity activity high format "Generic_star_tracker: {}"
+        @ Disable Command
+        async command DISABLE()
 
-        @ A count of the number of greetings issued
-        telemetry DeviceCounter: U32
+        @ Enable Command
+        async command ENABLE()
+
+        @ Reset Counters Command
+        async command RESET_COUNTERS()
+
+        @ event with maximum greeting length of 40 characters
+        event TELEM(
+            log_info: string size 40 @< 
+        ) severity activity high format "Generic_star_tracker: {}"
 
         #@ A count of the number of greetings issued
         #telemetry DeviceConfig: U32
@@ -49,6 +62,24 @@ module Components {
 
         @ 8-bit Valid Flag
         telemetry IsValid: U8
+
+        @ Sim Device Counter Renamed
+        telemetry ReportedComponentCount: U32
+
+        @ Command Count
+        telemetry CommandCount: U32
+
+        @ Command Error Count
+        telemetry CommandErrorCount: U32
+
+        @ Device Count
+        telemetry DeviceCount: U32
+
+        @ Device Error Count
+        telemetry DeviceErrorCount: U32
+
+        @ Device Enable
+        telemetry DeviceEnabled: ActiveState
 
         ##############################################################################
         #### Uncomment the following examples to start customizing your component ####

@@ -23,7 +23,7 @@ namespace Components {
     HkTelemetryPkt.CommandErrorCount = 0;
     HkTelemetryPkt.DeviceCount = 0;
     HkTelemetryPkt.DeviceErrorCount = 0;
-    HkTelemetryPkt.DeviceEnabled = GENERIC_ST_DEVICE_DISABLED;
+    HkTelemetryPkt.DeviceEnabled = GENERIC_ST_DEVICE_ENABLED;
      /* Open device specific protocols */
     Generic_star_trackerUart.deviceString = GENERIC_STAR_TRACKER_CFG_STRING;
     Generic_star_trackerUart.handle = GENERIC_STAR_TRACKER_CFG_HANDLE;
@@ -39,7 +39,7 @@ namespace Components {
         printf("UART device %s failed to initialize! \n", Generic_star_trackerUart.deviceString);
     }
 
-    status = uart_close_port(&Generic_star_trackerUart);
+    // status = uart_close_port(&Generic_star_trackerUart);
 
   }
 

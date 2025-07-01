@@ -128,12 +128,6 @@ namespace Components {
 
     status = GENERIC_STAR_TRACKER_RequestData(&Generic_star_trackerUart, &Generic_star_trackerData);
 
-    this->tlmWrite_Q0_Data(Generic_star_trackerData.Q0);
-    this->tlmWrite_Q1_Data(Generic_star_trackerData.Q1);
-    this->tlmWrite_Q2_Data(Generic_star_trackerData.Q2);
-    this->tlmWrite_Q3_Data(Generic_star_trackerData.Q3);
-    this->tlmWrite_IsValid(Generic_star_trackerData.IsValid);
-
     this->STout_out(0, Generic_star_trackerData.Q0, Generic_star_trackerData.Q1, Generic_star_trackerData.Q2, Generic_star_trackerData.Q3, Generic_star_trackerData.IsValid);
   }
 

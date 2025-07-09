@@ -17,6 +17,9 @@ module Components {
         @ Periodic Data Star Tracker
         async input port updateData: Svc.Sched
 
+        @ Periodic Tlm Star Tracker
+        async input port updateTlm: Svc.Sched
+
         @ Command to Request Housekeeping
         async command REQUEST_HOUSEKEEPING(
         )

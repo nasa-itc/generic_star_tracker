@@ -131,6 +131,20 @@ namespace Components {
     this->STout_out(0, Generic_star_trackerData.Q0, Generic_star_trackerData.Q1, Generic_star_trackerData.Q2, Generic_star_trackerData.Q3, Generic_star_trackerData.IsValid);
   }
 
+  void Generic_star_tracker :: updateTlm_handler(const NATIVE_INT_TYPE portNum, NATIVE_UINT_TYPE context)
+  {
+    this->tlmWrite_ReportedComponentCount(Generic_star_trackerHK.DeviceCounter);
+    this->tlmWrite_CommandCount(HkTelemetryPkt.CommandCount);
+    this->tlmWrite_CommandErrorCount(HkTelemetryPkt.CommandErrorCount);
+    this->tlmWrite_DeviceCount(HkTelemetryPkt.DeviceCount);
+    this->tlmWrite_DeviceErrorCount(HkTelemetryPkt.DeviceErrorCount);
+    this->tlmWrite_Q0_Data(Generic_star_trackerData.Q0);
+    this->tlmWrite_Q1_Data(Generic_star_trackerData.Q1);
+    this->tlmWrite_Q2_Data(Generic_star_trackerData.Q2);
+    this->tlmWrite_Q3_Data(Generic_star_trackerData.Q3);
+    this->tlmWrite_IsValid(Generic_star_trackerData.IsValid);
+  }
+
   //GENERIC_STAR_TRACKER_RequestData
   void Generic_star_tracker :: REQUEST_DATA_cmdHandler(FwOpcodeType opCode, U32 cmdSeq) {
     int32_t status = OS_SUCCESS;

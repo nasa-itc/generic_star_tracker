@@ -128,7 +128,15 @@ namespace Components {
 
     status = GENERIC_STAR_TRACKER_RequestData(&Generic_star_trackerUart, &Generic_star_trackerData);
 
-    this->STout_out(0, Generic_star_trackerData.Q0, Generic_star_trackerData.Q1, Generic_star_trackerData.Q2, Generic_star_trackerData.Q3, Generic_star_trackerData.IsValid);
+    if(status == OS_SUCCESS)
+    {
+      HkTelemetryPkt.DeviceCount++;
+      this->STout_out(0, Generic_star_trackerData.Q0, Generic_star_trackerData.Q1, Generic_star_trackerData.Q2, Generic_star_trackerData.Q3, Generic_star_trackerData.IsValid);
+    }
+    else
+    {
+      HkTelemetryPkt.DeviceErrorCount++;
+    }
   }
 
   void Generic_star_tracker :: updateTlm_handler(const NATIVE_INT_TYPE portNum, NATIVE_UINT_TYPE context)

@@ -35,7 +35,7 @@ namespace Nos3
             ** 42 data stream defined in `42/Source/IPC/SimWriteToSocket.c`
             */
             std::string valid_key, qn_key;
-            valid_key.append("SC[").append(std::to_string(_sc)).append("].AC.ST[").append(std::to_string(_st)).append("]"); // SC[N].AC.ST[M].qn / Valid
+            valid_key.append("SC[").append(std::to_string(_sc)).append("].ST[").append(std::to_string(_st)).append("]"); // SC[N].ST[M].qn / Valid
             qn_key = valid_key;
             valid_key.append(".Valid");
             qn_key.append(".qn");
@@ -48,10 +48,14 @@ namespace Nos3
             std::vector<double> data;
             parse_double_vector(qn_values, data);
 
-            _generic_star_tracker_data[0] = data[0];
-            _generic_star_tracker_data[1] = data[1];
-            _generic_star_tracker_data[2] = data[2];
-            _generic_star_tracker_data[3] = data[3];
+            if (data.size() < 4) {
+                _generic_star_tracker_data_is_valid = false;
+            } else {
+                _generic_star_tracker_data[0] = data[0];
+                _generic_star_tracker_data[1] = data[1];
+                _generic_star_tracker_data[2] = data[2];
+                _generic_star_tracker_data[3] = data[3];
+            }
 
             _not_parsed = false;
 

@@ -25,7 +25,16 @@ namespace Nos3
         _generic_star_tracker_data_is_valid = false;
         _generic_star_tracker_data[0] = _generic_star_tracker_data[1] = _generic_star_tracker_data[2] = 0.0;
     }
-    
+
+    Generic_star_trackerDataPoint::Generic_star_trackerDataPoint(int16_t spacecraft, int16_t star_tracker, bool valid, double quaternion[4]) :
+        _sc(spacecraft), _st(star_tracker), _not_parsed(false), _generic_star_tracker_data_is_valid(valid)
+    {
+        _generic_star_tracker_data[0] = quaternion[0];
+        _generic_star_tracker_data[1] = quaternion[1];
+        _generic_star_tracker_data[2] = quaternion[2];
+        _generic_star_tracker_data[3] = quaternion[3];
+    }
+
     void Generic_star_trackerDataPoint::do_parsing(void) const
     {
         try {

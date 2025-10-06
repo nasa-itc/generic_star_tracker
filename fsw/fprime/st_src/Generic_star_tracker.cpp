@@ -271,7 +271,8 @@ namespace Components {
     else
     {
       HkTelemetryPkt.CommandErrorCount++;
-      this->log_ACTIVITY_HI_TELEM("Enable Failed, Already Enabled");
+      Fw::LogStringArg log_msg("Enable Failed, Already Enabled");
+      this->log_ACTIVITY_HI_TELEM(log_msg);
     }
 
     this->tlmWrite_CommandCount(HkTelemetryPkt.CommandCount);

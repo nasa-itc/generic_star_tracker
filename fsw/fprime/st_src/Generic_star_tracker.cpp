@@ -5,7 +5,8 @@
 // ======================================================================
 
 #include "st_src/Generic_star_tracker.hpp"
-#include "FpConfig.hpp"
+// #include "FpConfig.hpp"
+#include "Fw/FPrimeBasicTypes.hpp"
 #include <Fw/Log/LogString.hpp>
 
 namespace Components {

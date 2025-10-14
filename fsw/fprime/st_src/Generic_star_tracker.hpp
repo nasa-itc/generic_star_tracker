@@ -52,7 +52,7 @@ namespace Components {
       //! Destroy Generic_star_tracker object
       ~Generic_star_tracker();
 
-    PRIVATE:
+    private:
 
       // ----------------------------------------------------------------------
       // Handler implementations for commands

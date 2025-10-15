@@ -129,7 +129,7 @@ namespace Components {
     this->cmdResponse_out(opCode, cmdSeq, Fw::CmdResponse::OK);
   }
 
-  void Generic_star_tracker :: updateData_handler(const NATIVE_INT_TYPE portNum, NATIVE_UINT_TYPE context)
+  void Generic_star_tracker :: updateData_handler(const FwIndexType portNum, U32 context)
   {
     int32_t status = OS_SUCCESS;
 
@@ -146,7 +146,7 @@ namespace Components {
     }
   }
 
-  void Generic_star_tracker :: updateTlm_handler(const NATIVE_INT_TYPE portNum, NATIVE_UINT_TYPE context)
+  void Generic_star_tracker :: updateTlm_handler(const FwIndexType portNum, U32 context)
   {
     this->tlmWrite_ReportedComponentCount(Generic_star_trackerHK.DeviceCounter);
     this->tlmWrite_CommandCount(HkTelemetryPkt.CommandCount);

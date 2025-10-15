@@ -82,13 +82,13 @@ namespace Components {
       ) override;
 
       void updateData_handler (
-        const NATIVE_INT_TYPE portNum,
-        NATIVE_UINT_TYPE context
+        const FwIndexType portNum,
+        U32 context
       ) override;
 
       void updateTlm_handler(
-        const NATIVE_INT_TYPE portNum, //!< The port number
-        NATIVE_UINT_TYPE context //!< The call order
+        const FwIndexType portNum, //!< The port number
+        U32 context //!< The call order
       ) override;
 
       void ENABLE_cmdHandler (

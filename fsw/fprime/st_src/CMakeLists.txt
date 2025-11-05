@@ -37,7 +37,7 @@ target_sources(${FPRIME_CURRENT_MODULE} PRIVATE
  "${CMAKE_CURRENT_LIST_DIR}/../../shared/generic_star_tracker_device.c"
 )
 
-target_include_directories(${FPRIME_CURRENT_MODULE} PUBLIC
+target_include_directories(${FPRIME_CURRENT_MODULE} PRIVATE
   "../../shared"
   "../../standalone/"
   "../../../../../fsw/apps/hwlib/fsw/public_inc"

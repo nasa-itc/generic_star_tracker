@@ -5,7 +5,9 @@
 // ======================================================================
 
 #include "st_src/Generic_star_tracker.hpp"
-#include "FpConfig.hpp"
+// #include "FpConfig.hpp"
+#include "Fw/FPrimeBasicTypes.hpp"
+#include <Fw/Log/LogString.hpp>
 
 namespace Components {
 
@@ -23,7 +25,7 @@ namespace Components {
     HkTelemetryPkt.CommandErrorCount = 0;
     HkTelemetryPkt.DeviceCount = 0;
     HkTelemetryPkt.DeviceErrorCount = 0;
-    HkTelemetryPkt.DeviceEnabled = GENERIC_ST_DEVICE_DISABLED;
+    HkTelemetryPkt.DeviceEnabled = GENERIC_ST_DEVICE_ENABLED;
      /* Open device specific protocols */
     Generic_star_trackerUart.deviceString = GENERIC_STAR_TRACKER_CFG_STRING;
     Generic_star_trackerUart.handle = GENERIC_STAR_TRACKER_CFG_HANDLE;
@@ -39,7 +41,7 @@ namespace Components {
         printf("UART device %s failed to initialize! \n", Generic_star_trackerUart.deviceString);
     }
 
-    status = uart_close_port(&Generic_star_trackerUart);
+    // status = uart_close_port(&Generic_star_trackerUart);
 
   }
 
@@ -71,11 +73,13 @@ namespace Components {
     if (status == OS_SUCCESS)
     {
       HkTelemetryPkt.CommandCount++;
-      this->log_ACTIVITY_HI_TELEM("Star Tracker NOOP command success\n");
+      Fw::LogStringArg log_msg("Star Tracker NOOP command success\n");
+      this->log_ACTIVITY_HI_TELEM(log_msg);
     }
     else
     {
-      this->log_ACTIVITY_HI_TELEM("Star Tracker NOOP command failed!\n");
+      Fw::LogStringArg log_msg("Star Tracker NOOP command failed!\n");
+      this->log_ACTIVITY_HI_TELEM(log_msg);
     }
     
     this->tlmWrite_CommandCount(HkTelemetryPkt.CommandCount);
@@ -97,18 +101,21 @@ namespace Components {
       if (status == OS_SUCCESS)
       {
         HkTelemetryPkt.DeviceCount++;
-        this->log_ACTIVITY_HI_TELEM("RequestHK command success\n");
+        Fw::LogStringArg log_msg("RequestHK command success\n");
+        this->log_ACTIVITY_HI_TELEM(log_msg);
       }
       else
       {
         HkTelemetryPkt.DeviceErrorCount++;
-        this->log_ACTIVITY_HI_TELEM("RequestHK command failed!\n");
+        Fw::LogStringArg log_msg("RequestHK command failed!\n");
+        this->log_ACTIVITY_HI_TELEM(log_msg);
       }
     }
     else
     {
       HkTelemetryPkt.CommandErrorCount++;
-      this->log_ACTIVITY_HI_TELEM("RequestHK command failed, device disabled!\n");
+      Fw::LogStringArg log_msg("RequestHK command failed, device disabled!\n");
+      this->log_ACTIVITY_HI_TELEM(log_msg);
     }
 
     this->tlmWrite_ReportedComponentCount(Generic_star_trackerHK.DeviceCounter);
@@ -122,6 +129,37 @@ namespace Components {
     this->cmdResponse_out(opCode, cmdSeq, Fw::CmdResponse::OK);
   }
 
+  void Generic_star_tracker :: updateData_handler(const FwIndexType portNum, U32 context)
+  {
+    int32_t status = OS_SUCCESS;
+
+    status = GENERIC_STAR_TRACKER_RequestData(&Generic_star_trackerUart, &Generic_star_trackerData);
+
+    if(status == OS_SUCCESS)
+    {
+      HkTelemetryPkt.DeviceCount++;
+      this->STout_out(0, Generic_star_trackerData.Q0, Generic_star_trackerData.Q1, Generic_star_trackerData.Q2, Generic_star_trackerData.Q3, Generic_star_trackerData.IsValid);
+    }
+    else
+    {
+      HkTelemetryPkt.DeviceErrorCount++;
+    }
+  }
+
+  void Generic_star_tracker :: updateTlm_handler(const FwIndexType portNum, U32 context)
+  {
+    this->tlmWrite_ReportedComponentCount(Generic_star_trackerHK.DeviceCounter);
+    this->tlmWrite_CommandCount(HkTelemetryPkt.CommandCount);
+    this->tlmWrite_CommandErrorCount(HkTelemetryPkt.CommandErrorCount);
+    this->tlmWrite_DeviceCount(HkTelemetryPkt.DeviceCount);
+    this->tlmWrite_DeviceErrorCount(HkTelemetryPkt.DeviceErrorCount);
+    this->tlmWrite_Q0_Data(Generic_star_trackerData.Q0);
+    this->tlmWrite_Q1_Data(Generic_star_trackerData.Q1);
+    this->tlmWrite_Q2_Data(Generic_star_trackerData.Q2);
+    this->tlmWrite_Q3_Data(Generic_star_trackerData.Q3);
+    this->tlmWrite_IsValid(Generic_star_trackerData.IsValid);
+  }
+
   //GENERIC_STAR_TRACKER_RequestData
   void Generic_star_tracker :: REQUEST_DATA_cmdHandler(FwOpcodeType opCode, U32 cmdSeq) {
     int32_t status = OS_SUCCESS;
@@ -133,18 +171,21 @@ namespace Components {
       if(status < 0)
       {
         HkTelemetryPkt.DeviceCount++;
-        this->log_ACTIVITY_HI_TELEM("ST_RequestData: Command Failed");
+        Fw::LogStringArg log_msg("ST_RequestData: Success!");
+        this->log_ACTIVITY_HI_TELEM(log_msg);
       }
       else
       {
         HkTelemetryPkt.DeviceErrorCount++;
-        this->log_ACTIVITY_HI_TELEM("ST_RequestData: Success!");
+        Fw::LogStringArg log_msg("ST_RequestData: Command Failed");
+        this->log_ACTIVITY_HI_TELEM(log_msg);
       }
     }
     else
     {
       HkTelemetryPkt.CommandErrorCount++;
-      this->log_ACTIVITY_HI_TELEM("Request Data Failed, Device Disabled!");
+      Fw::LogStringArg log_msg("Request Data Failed, Device Disabled!");
+      this->log_ACTIVITY_HI_TELEM(log_msg);
     }
     
     this->tlmWrite_ReportedComponentCount(Generic_star_trackerHK.DeviceCounter);
@@ -158,6 +199,8 @@ namespace Components {
     this->tlmWrite_Q3_Data(Generic_star_trackerData.Q3);
     this->tlmWrite_IsValid(Generic_star_trackerData.IsValid);
 
+
+    this->STout_out(0, Generic_star_trackerData.Q0, Generic_star_trackerData.Q1, Generic_star_trackerData.Q2, Generic_star_trackerData.Q3, Generic_star_trackerData.IsValid);
     this->cmdResponse_out(opCode, cmdSeq, Fw::CmdResponse::OK);
   }
 
@@ -172,18 +215,21 @@ namespace Components {
         {
           HkTelemetryPkt.DeviceCount++;
           HkTelemetryPkt.DeviceEnabled = GENERIC_ST_DEVICE_DISABLED;
-          this->log_ACTIVITY_HI_TELEM("Successfully Disabled Star Tracker!");
+          Fw::LogStringArg log_msg("Successfully Disabled Star Tracker!");
+          this->log_ACTIVITY_HI_TELEM(log_msg);
         }
         else
         {
           HkTelemetryPkt.DeviceErrorCount++;
-          this->log_ACTIVITY_HI_TELEM("Disable Failed, UART init fail");
+          Fw::LogStringArg log_msg("Disable Failed, UART init fail");
+          this->log_ACTIVITY_HI_TELEM(log_msg);
         }
     }
     else
     {
       HkTelemetryPkt.CommandErrorCount++;
-      this->log_ACTIVITY_HI_TELEM("Disable Failed, Already Disabled");
+      Fw::LogStringArg log_msg("Disable Failed, Already Disabled");
+      this->log_ACTIVITY_HI_TELEM(log_msg);
     }
 
     this->tlmWrite_CommandCount(HkTelemetryPkt.CommandCount);
@@ -213,18 +259,21 @@ namespace Components {
         {
           HkTelemetryPkt.DeviceCount++;
           HkTelemetryPkt.DeviceEnabled = GENERIC_ST_DEVICE_ENABLED;
-          this->log_ACTIVITY_HI_TELEM("Successfully Enabled Star Tracker!");
+          Fw::LogStringArg log_msg("Successfully Enabled Star Tracker!");
+          this->log_ACTIVITY_HI_TELEM(log_msg);
         }
         else
         {
           HkTelemetryPkt.DeviceErrorCount++;
-          this->log_ACTIVITY_HI_TELEM("Enable Failed, UART init fail");
+          Fw::LogStringArg log_msg("Enable Failed, UART init fail");
+          this->log_ACTIVITY_HI_TELEM(log_msg);
         }
     }
     else
     {
       HkTelemetryPkt.CommandErrorCount++;
-      this->log_ACTIVITY_HI_TELEM("Enable Failed, Already Enabled");
+      Fw::LogStringArg log_msg("Enable Failed, Already Enabled");
+      this->log_ACTIVITY_HI_TELEM(log_msg);
     }
 
     this->tlmWrite_CommandCount(HkTelemetryPkt.CommandCount);
@@ -242,7 +291,8 @@ namespace Components {
     HkTelemetryPkt.DeviceCount = 0;
     HkTelemetryPkt.DeviceErrorCount = 0;
 
-    this->log_ACTIVITY_HI_TELEM("Reset Counters command successful!");
+    Fw::LogStringArg log_msg("Reset Counters command successful!");
+    this->log_ACTIVITY_HI_TELEM(log_msg);
     this->tlmWrite_CommandCount(HkTelemetryPkt.CommandCount);
     this->tlmWrite_CommandErrorCount(HkTelemetryPkt.CommandErrorCount);
     this->tlmWrite_DeviceCount(HkTelemetryPkt.DeviceCount);

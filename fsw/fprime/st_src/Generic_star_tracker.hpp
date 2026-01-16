@@ -52,7 +52,7 @@ namespace Components {
       //! Destroy Generic_star_tracker object
       ~Generic_star_tracker();
 
-    PRIVATE:
+    private:
 
       // ----------------------------------------------------------------------
       // Handler implementations for commands
@@ -79,6 +79,16 @@ namespace Components {
       void REQUEST_DATA_cmdHandler (
         FwOpcodeType opCode,
         U32 cmdSeq
+      ) override;
+
+      void updateData_handler (
+        const FwIndexType portNum,
+        U32 context
+      ) override;
+
+      void updateTlm_handler(
+        const FwIndexType portNum, //!< The port number
+        U32 context //!< The call order
       ) override;
 
       void ENABLE_cmdHandler (

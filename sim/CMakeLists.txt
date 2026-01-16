@@ -13,6 +13,7 @@ set(generic_star_tracker_sim_src
     src/generic_star_tracker_42_data_provider.cpp
     src/generic_star_tracker_data_provider.cpp
     src/generic_star_tracker_data_point.cpp
+    src/generic_star_tracker_shmem_data_provider.cpp
 )
 
 # For Code::Blocks and other IDEs

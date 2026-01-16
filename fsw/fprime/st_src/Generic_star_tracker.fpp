@@ -10,7 +10,16 @@ module Components {
 
         # One async command/port is required for active components
         # This should be overridden by the developers with a useful command/port
-        @ TODO
+
+        @ Star Tracker output port
+        output port STout: STDataPort
+
+        @ Periodic Data Star Tracker
+        async input port updateData: Svc.Sched
+
+        @ Periodic Tlm Star Tracker
+        async input port updateTlm: Svc.Sched
+
         @ Command to Request Housekeeping
         async command REQUEST_HOUSEKEEPING(
         )

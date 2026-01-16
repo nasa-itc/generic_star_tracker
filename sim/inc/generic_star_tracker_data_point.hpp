@@ -13,6 +13,8 @@ namespace Nos3
         /* Constructors */
         Generic_star_trackerDataPoint(double count);
         Generic_star_trackerDataPoint(int16_t spacecraft, int16_t star_tracker, const boost::shared_ptr<Sim42DataPoint> dp);
+        Generic_star_trackerDataPoint(int16_t spacecraft, int16_t star_tracker, bool valid, double quaternion[4]);
+        ~Generic_star_trackerDataPoint(void) {};
 
         /* Accessors */
         /* Provide the hardware model a way to get the specific data out of the data point */
@@ -27,7 +29,6 @@ namespace Nos3
         /* Disallow these */
         Generic_star_trackerDataPoint(void) {};
         Generic_star_trackerDataPoint(const Generic_star_trackerDataPoint& sdp) : Sim42DataPoint(sdp) {};
-        ~Generic_star_trackerDataPoint(void) {};
 
         // Private mutators
         inline void parse_data_point(void) const {if (_not_parsed) do_parsing();}

@@ -7,7 +7,7 @@ for p in glob.glob('/gems/gems/openc3-cosmos-nos3-*/targets/GENERIC_STAR_TRACKER
 
 try:
     from openc3.script import cmd, tlm, check
-    from generic_st_lib import *
+    from nos3.generic_st_lib import *
 except ImportError:
     pass
 

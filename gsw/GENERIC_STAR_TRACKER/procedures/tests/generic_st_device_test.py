@@ -58,5 +58,3 @@ def run_generic_st_device_test():
 
         # Disable
         disable_generic_st()
-
-    print("End of ST Device Test Script")

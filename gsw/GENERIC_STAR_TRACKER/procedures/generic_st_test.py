@@ -5,12 +5,13 @@ for p in glob.glob('/gems/gems/openc3-cosmos-nos3-*/targets/GENERIC_STAR_TRACKER
     if p not in sys.path:
         sys.path.append(p)
 
+from openc3.script.suite import Suite, Group
+
 try:
-    from openc3.script.suite import Suite, Group
-    from generic_st_lib import *
-    from generic_st_app_test import run_generic_st_app_test
-    from generic_st_device_test import run_generic_st_device_test
-    from generic_st_ast_test import run_generic_st_ast_test
+    from nos3.generic_st_lib import *
+    from nos3.generic_st_app_test import run_generic_st_app_test
+    from nos3.generic_st_device_test import run_generic_st_device_test
+    from nos3.generic_st_ast_test import run_generic_st_ast_test
 except ImportError:
     pass
 

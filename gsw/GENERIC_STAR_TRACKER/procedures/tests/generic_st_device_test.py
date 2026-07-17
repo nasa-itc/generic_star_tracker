@@ -1,5 +1,6 @@
 import sys
 import glob
+import time 
 
 for p in glob.glob('/gems/gems/openc3-cosmos-nos3-*/targets/GENERIC_STAR_TRACKER/scripts'):
     if p not in sys.path:
@@ -38,6 +39,8 @@ def run_generic_st_device_test():
 
         # Enable
         enable_generic_st()
+
+        time.sleep(1)
 
         get_generic_st_data()
         get_generic_st_hk()

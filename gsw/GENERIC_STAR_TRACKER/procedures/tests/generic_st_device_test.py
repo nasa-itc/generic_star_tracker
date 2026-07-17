@@ -59,5 +59,7 @@ def run_generic_st_device_test():
         # Reconfirm data remains as expected
         confirm_generic_st_data_loop()
 
+        time.sleep(1)
+
         # Disable
         disable_generic_st()
